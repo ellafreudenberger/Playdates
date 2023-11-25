@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import PageNotFound from './pages/PageNotFound';
 import Login from './pages/Login';
+import Admin from './pages/Admin';
 import Nav from './components/Nav'
 
 
@@ -15,6 +16,7 @@ const App = () => {
     <Route path= "/" element= { <Home /> }/>
     <Route path= "/register" element= { <Register /> }/>
     <Route path= "/login" element= { <Login /> }/>
+    <Route path= "/admin" element= { <Admin />} />
     <Route path= "/PageNotFound" element= { <PageNotFound /> }/>
     </Routes>
     </div>
