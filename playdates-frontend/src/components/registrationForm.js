@@ -42,7 +42,7 @@ const RegistrationForm = () => {
         return;
       }
 
-      // Validate password strength (you can still do this on the client side for UX)
+      // Validate password strength so user confirms password strength
       if (formData.password.length < 6) {
         console.error('Password must be at least 6 characters long.');
         return;
@@ -57,28 +57,16 @@ const RegistrationForm = () => {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data); // Log the response from the server
-
-        // Clear the form after successful submission
-        setFormData({
-          first_name: '',
-          last_name: '',
-          username: '',
-          password: '',
-          dog_name: '',
-          dog_age: '',
-          breed: '',
-          behavior: '',
-        });
-
-        // Redirect the user to the login page
-        navigate('/login');
-      } else {
+      if (!response.ok) {
         const errorData = await response.json();
-        console.error(`Error: ${response.status} - ${errorData.error}`);
+        console.error('Server error:', errorData);
+        return;
       }
+  
+      const data = await response.json();
+      console.log(data); // Log the response from the server
+      console.log('Redirecting to Login page'); // Check that page redirection works
+      navigate('/login'); // Redirect to Login page
     } catch (error) {
       console.error(error); // Log any error that occurs
     }
@@ -97,6 +85,7 @@ const RegistrationForm = () => {
           value={formData.first_name}
           onChange={handleChange}
           required
+          autoComplete="off"
         />
 
         <label htmlFor="last_name">Last Name:</label>
@@ -107,6 +96,7 @@ const RegistrationForm = () => {
           value={formData.last_name}
           onChange={handleChange}
           required
+          autoComplete="off"
         />
 
         <label htmlFor="username">Username:</label>
@@ -117,6 +107,7 @@ const RegistrationForm = () => {
           value={formData.username}
           onChange={handleChange}
           required
+          autoComplete="off"
         />
 
         <label htmlFor="password">Password:</label>
@@ -127,6 +118,7 @@ const RegistrationForm = () => {
           value={formData.password}
           onChange={handleChange}
           required
+          autoComplete="off"
         />
 
         <label htmlFor="dog_name">Dog Name:</label>
@@ -137,6 +129,7 @@ const RegistrationForm = () => {
           value={formData.dog_name}
           onChange={handleChange}
           required
+          autoComplete="off"
         />
 
         <label htmlFor="dog_age">Dog Age:</label>
@@ -147,6 +140,7 @@ const RegistrationForm = () => {
           value={formData.dog_age}
           onChange={handleChange}
           required
+          autoComplete="off"
         />
 
         <label htmlFor="breed">Breed:</label>
@@ -157,6 +151,7 @@ const RegistrationForm = () => {
           value={formData.breed}
           onChange={handleChange}
           required
+          autoComplete="off"
         />
 
         <label htmlFor="behavior">Behavior:</label>
@@ -167,6 +162,7 @@ const RegistrationForm = () => {
           value={formData.behavior}
           onChange={handleChange}
           required
+          autoComplete="off"
         />
 
         <button type="submit">Register</button>
