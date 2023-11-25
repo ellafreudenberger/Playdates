@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const RegistrationForm = () => {
   const navigate = useNavigate();
 
+  const [UsernameErrorMessage, setUsernameErrorMessage] = useState('');
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -59,7 +61,7 @@ const RegistrationForm = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Server error:', errorData);
+        setUsernameErrorMessage(errorData.error || 'Sorry this username is already taken!');
         return;
       }
   
@@ -166,6 +168,7 @@ const RegistrationForm = () => {
         />
 
         <button type="submit">Register</button>
+        {UsernameErrorMessage && <p style={{ color: 'red' }}>{UsernameErrorMessage}</p>}
       </form>
     </div>
   );
