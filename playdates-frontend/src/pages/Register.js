@@ -1,6 +1,11 @@
-export const Register = () => {
+import React from "react";
+import RegistrationForm from "../components/registrationForm";
+
+const Register = () => {
     return (
-    <h1>Insert registrationForm component here!</h1> 
+    <div> 
+    <RegistrationForm />
+    </div>
     );
 }
 

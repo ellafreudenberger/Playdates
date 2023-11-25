@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const seedersScript = require('./seeders/login');
+const cors = require('cors');
 const Users = require('./models/user');
 
 const app = express();
@@ -20,6 +21,9 @@ app.set('view engine', 'ejs');
 // Middleware to parse JSON and urlencoded data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// CORS middleware to complete cross-origin requests between servers
+app.use(cors());
 
 // Welcome page route
 app.get('/', (req, res) => {
@@ -59,7 +63,7 @@ app.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create new user with hashed password
-        const newUser = new User({
+        const newUser = new Users({
             first_name,
             last_name,
             username,

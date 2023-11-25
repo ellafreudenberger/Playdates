@@ -1,7 +1,10 @@
+// RegistrationForm.js
 import React, { useState } from 'react';
-import bcrypt from 'bcrypt';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationForm = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -24,20 +27,26 @@ const RegistrationForm = () => {
     e.preventDefault();
 
     try {
-      // Validate password strength
-      if (formData.password.length < 6) {
-        console.error("Password must be at least 6 characters long.");
+      // Basic information validation
+      if (
+        !formData.first_name ||
+        !formData.last_name ||
+        !formData.username ||
+        !formData.password ||
+        !formData.dog_name ||
+        !formData.dog_age ||
+        !formData.breed ||
+        !formData.behavior
+      ) {
+        console.error('All fields are required.');
         return;
       }
 
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(formData.password, 10);
-
-      // Create new user with hashed password
-      const newUser = {
-        ...formData,
-        password: hashedPassword,
-      };
+      // Validate password strength (you can still do this on the client side for UX)
+      if (formData.password.length < 6) {
+        console.error('Password must be at least 6 characters long.');
+        return;
+      }
 
       // Send the user data to the backend
       const response = await fetch('http://localhost:3000/register', {
@@ -45,13 +54,33 @@ const RegistrationForm = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newUser),
+        body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-      console.log(data); // Successfully posted!
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data); // Log the response from the server
+
+        // Clear the form after successful submission
+        setFormData({
+          first_name: '',
+          last_name: '',
+          username: '',
+          password: '',
+          dog_name: '',
+          dog_age: '',
+          breed: '',
+          behavior: '',
+        });
+
+        // Redirect the user to the login page
+        navigate('/login');
+      } else {
+        const errorData = await response.json();
+        console.error(`Error: ${response.status} - ${errorData.error}`);
+      }
     } catch (error) {
-      console.error(error); // Error posting!
+      console.error(error); // Log any error that occurs
     }
   };
 
@@ -59,6 +88,7 @@ const RegistrationForm = () => {
     <div>
       <h2>Sign up for Playdates!</h2>
       <form onSubmit={handleSubmit}>
+
         <label htmlFor="first_name">First Name:</label>
         <input
           type="text"
