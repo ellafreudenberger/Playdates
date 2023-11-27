@@ -118,15 +118,21 @@
     
           // Clear the form fields after adding an event
           setBookEvent({ title: '', start: '', end: '', availableSlots: '0', bookedSlots: 0 });
-        } else {
-          console.error('Failed to book event');
-        }
-      } catch (error) {
-        console.error('Error booking event', error);
-      }
-    };
-    
-    const handleEventClick = (event) => {
+        
+          // Close the event details modal
+           handleCloseModal();
+
+      // Show the Venmo modal
+      setVenmoModalVisible(true);
+     } else {
+      console.error('Failed to book event');
+     }
+    } catch (error) {
+      console.error('Error booking event', error);
+    }
+  };
+  
+     const handleEventClick = (event) => {
       setSelectedEvent(event);
     };
   
