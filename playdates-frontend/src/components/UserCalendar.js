@@ -45,6 +45,20 @@
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [venmoModalVisible, setVenmoModalVisible] = useState(false);
 
+    const [remainingSlots, setRemainingSlots] = useState(0);
+    
+    useEffect(() => {
+      // Calculate remaining slots whenever allEvents or selectedEvent changes
+      if (selectedEvent) {
+        const event = allEvents.find((event) => event._id === selectedEvent._id);
+        if (event) {
+          const availableSlots = event.availableSlots || 0;
+          const bookedSlots = event.bookedSlots || 0;
+          setRemainingSlots(availableSlots - bookedSlots);
+        }
+      }
+    }, [allEvents, selectedEvent]);
+
     useEffect(() => {
       const fetchEvents = async () => {
         try {
@@ -75,6 +89,7 @@
       fetchEvents();
     }, [selectedEvent]); // Updates the status of any selected events booked
   
+   
     const handleBookEvent = async () => {
       try {
         // Include eventId in bookEvent object for tracking
@@ -165,7 +180,7 @@
 >
   <p>Available Slots: {selectedEvent?.availableSlots || 0}</p>
   <p>Booked Slots: {selectedEvent?.bookedSlots || 0}</p>
-  <p>Remaining Slots: {selectedEvent?.remainingSlots || 0}</p>
+  <p>Remaining Slots: {remainingSlots}</p>
 </Modal>
 
 {/* Venmo Modal */}
