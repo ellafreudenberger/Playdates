@@ -5,8 +5,8 @@ import Register from './pages/Register';
 import PageNotFound from './pages/PageNotFound';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
-import PlaydatesAdministratorCalendar from './components/AdministratorCalendar';
-import PlaydatesUserCalendar from './components/UserCalendar';
+// import from './components/administratorCalendar';
+import BookingsCalendar from './components/UserCalendar';
 import Nav from './components/Nav'
 
 
@@ -19,8 +19,7 @@ const App = () => {
     <Route path= "/register" element= { <Register /> }/>
     <Route path= "/login" element= { <Login /> }/>
     <Route path= "/admin" element= { <Admin />} />
-    <Route path= "/admincalendar" element= {<PlaydatesAdministratorCalendar />} />
-    <Route path= "/calendar" element= {<PlaydatesUserCalendar />} />
+    <Route path= "/calendar" element= {<BookingsCalendar />} />
     <Route path= "/PageNotFound" element= { <PageNotFound /> }/>
     </Routes>
     </div>

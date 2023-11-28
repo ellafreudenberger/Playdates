@@ -15,6 +15,7 @@ const usersSchema = new mongoose.Schema({
     dog_age: { type: String, required: true },
     breed: { type: String, required: true },
     behavior: { type: String, required: true },
+    home_address: { type: String, required: true },
   },
  { collection: 'Users' });
 

@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt');
 const seedersScript = require('./seeders/login');
 const cors = require('cors');
 const Users = require('./models/user');
-const AdminCalendar = require('./models/adminCalendar');
+const Bookings = require('./models/booking')
+const checkAvailability = require('./controllers/availabilityController')
 
 const app = express();
 
@@ -48,10 +49,10 @@ app.get('/admin', async (req, res) => {
 // Registration route
 app.post('/register', async (req, res) => {
     try {
-        const { first_name, last_name, username, password, dog_name, dog_age, breed, behavior } = req.body;
+        const { first_name, last_name, username, password, dog_name, dog_age, breed, behavior, home_address } = req.body;
 
         // Basic information validation
-        if (!first_name || !last_name || !username || !password || !dog_name || !dog_age || !breed || !behavior) {
+        if (!first_name || !last_name || !username || !password || !dog_name || !dog_age || !breed || !behavior|| !home_address) {
             return res.status(400).json({ error: "All fields are required." });
         }
 
@@ -73,6 +74,7 @@ app.post('/register', async (req, res) => {
             dog_age,
             breed,
             behavior,
+            home_address
         });
 
         // Save the user to the database
@@ -85,66 +87,35 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Administrator calendar route
-app.post('/admincalendar', async (req, res) => {
-    try {
-      const { title, start, end, availableSlots } = req.body;
-  
-      // Basic information validation
-      if (!title || !start || !end || !availableSlots) {
-        return res.status(400).json({ error: "All fields are required." });
-      }
-  
-      // Create new event with the provided data
-      const newEvent = new AdminCalendar({
-        title,
-        start,
-        end,
-        availableSlots
-      });
-  
-      // Save event to the AdminCalendar collection
-      const savedEvent = await newEvent.save();
-      return res.status(200).json(savedEvent);
-  
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: "Internal Server Error" });
+// Booking route
+app.post('/bookings', async (req, res) => {
+  try {
+    // Parse data from the request body
+    const formData = req.body;
+
+    // Create a new booking with the form data
+    const newBooking = new Bookings(formData);
+
+    // Call the checkAvailability function
+    const availabilityStatus = await checkAvailability(formData);
+
+    // If the service is available, proceed with saving to the database
+    if (availabilityStatus.available) {
+      // Save the booking to the database (implementation depends on your database model)
+      // ...
+
+      return res.status(200).json({ success: true, message: 'Booking successful.' });
+    } else {
+      // If the service is not available, return an error message to the frontend
+      return res.status(400).json({ success: false, message: availabilityStatus.message });
     }
-  });
-
-  // Get all events from the admin calendar
-app.get('/admincalendar', async (req, res) => {
-  try {
-    const events = await AdminCalendar.find();
-    res.json(events);
   } catch (error) {
-    console.error('Error fetching events from admin calendar', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error handling booking:', error);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 
-// User calendar with sign-ups added route
-app.post('/calendar', async (req, res) => {
-  try {
-    const eventId = req.body.eventId;
-    const updatedEvent = await AdminCalendar.findByIdAndUpdate(
-      eventId,
-      { $inc: { bookedSlots: 1 } },
-      { new: true }
-    );
-
-    // Calculate available slots based on the total slots and booked slots
-    const availableSlots = updatedEvent.totalSlots - updatedEvent.bookedSlots;
-
-    res.json({ bookedSlots: updatedEvent.bookedSlots, availableSlots });
-  } catch (error) {
-    console.error('Error updating event:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-
+module.exports = router;
 
 // Start server
 const PORT = 3000;
