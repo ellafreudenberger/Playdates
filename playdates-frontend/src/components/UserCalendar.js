@@ -44,8 +44,10 @@
     const [allEvents, setAllEvents] = useState([events]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [venmoModalVisible, setVenmoModalVisible] = useState(false);
-
-    const [remainingSlots, setRemainingSlots] = useState(0);
+   
+    
+    // eslint-disable-next-line
+    const [remainingSlots, setRemainingSlots] = useState(0); 
     
     useEffect(() => {
       // Calculate remaining slots whenever allEvents or selectedEvent changes
@@ -131,7 +133,7 @@
       console.error('Error booking event', error);
     }
   };
-  
+
      const handleEventClick = (event) => {
       setSelectedEvent(event);
     };
@@ -147,50 +149,63 @@
     return (
     <div>
     <h1>Playdates Calendar</h1>
+    <style>{`
+    
+        .custom-event.available {
+          background-color: purple; /* Change to the desired color for available events */
+        }
+
+        .custom-event.fully-booked {
+          background-color: grey; /* Change to the desired color for fully booked events */
+        }
+      `}</style>
    
-    <Calendar
-  localizer={localizer}
-  events={allEvents}
-  startAccessor="start"
-  endAccessor="end"
-  style={{ height: 500, margin: "50px" }}
-  onSelectEvent={(event) => handleEventClick(event)}
-  eventPropGetter={(event, start, end, isSelected) => {
-    const availableSlots = event.availableSlots || 0;
-    const bookedSlots = event.bookedSlots || 0;
-    const remainingSlots = availableSlots - bookedSlots;
+      <Calendar
+        localizer={localizer}
+        events={allEvents}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500, margin: '50px' }}
+        onSelectEvent={(event) => handleEventClick(event)}
+        eventPropGetter={(event, start, end, isSelected) => {
+          const availableSlots = event.availableSlots || 0;
+          const bookedSlots = event.bookedSlots || 0;
+          const remainingSlots = availableSlots - bookedSlots;
 
-    return {
-      className: `custom-event ${remainingSlots === 0 ? 'fully-booked' : ''}`,
-    };
-  }}
-/>
+          return {
+            className: `custom-event ${remainingSlots === 0 ? 'fully-booked' : 'available'}`,
+          };
+        }}
+      />
 
-<Modal
-  open={!!selectedEvent}
-  title={selectedEvent?.title}
-  onCancel={handleCloseModal}
-  footer={[
-    <Button key="cancel" onClick={handleCloseModal}>
-      Cancel
-    </Button>,
-   <Button
-  key="signup"
-  type="primary"
-  onClick={handleBookEvent}
-  disabled={selectedEvent ? selectedEvent.availableSlots - selectedEvent.bookedSlots === 0 : true}
->
-  Sign Up
-</Button>,
-  ]}
->
-  <p>Available Slots: {selectedEvent?.availableSlots || 0}</p>
-  <p>Booked Slots: {selectedEvent?.bookedSlots || 0}</p>
-  <p>Remaining Slots: {remainingSlots}</p>
-</Modal>
+      <Modal
+        open={!!selectedEvent}
+        title={selectedEvent?.title}
+        onCancel={handleCloseModal}
+        footer={[
+          <Button key="cancel" onClick={handleCloseModal}>
+            Cancel
+          </Button>,
+          <Button
+            key="signup"
+            type="primary"
+            onClick={handleBookEvent}
+            disabled={selectedEvent ? selectedEvent.availableSlots - selectedEvent.bookedSlots === 0 : true}
+          >
+            Sign Up
+          </Button>,
+        ]}
+      >
+    <p>
+    Start Time: {selectedEvent ? new Date(selectedEvent.start).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : ''}
+  </p>
+  <p>
+    End Time: {selectedEvent ? new Date(selectedEvent.end).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : ''}
+  </p>
+      </Modal>
 
-{/* Venmo Modal */}
-<Modal
+      {/* Venmo Modal */}
+      <Modal
         open={venmoModalVisible}
         title="Scan Venmo QR Code"
         onCancel={handleCloseVenmoModal}
@@ -202,8 +217,8 @@
       >
         <img src="/images/venmo.jpeg" alt="Venmo QR Code" style={{ maxWidth: '100%' }} />
       </Modal>
-</div>
-    )
-};
+    </div>
+  );
+}
 
 export default PlaydatesUserCalendar;

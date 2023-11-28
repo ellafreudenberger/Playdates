@@ -16,6 +16,7 @@ const RegistrationForm = () => {
     dog_age: '',
     breed: '',
     behavior: '',
+    home_address: '',
   });
 
   const handleChange = (e) => {
@@ -38,7 +39,8 @@ const RegistrationForm = () => {
         !formData.dog_name ||
         !formData.dog_age ||
         !formData.breed ||
-        !formData.behavior
+        !formData.behavior ||
+        !formData.home_address
       ) {
         console.error('All fields are required.');
         return;
@@ -162,6 +164,17 @@ const RegistrationForm = () => {
           id="behavior"
           name="behavior"
           value={formData.behavior}
+          onChange={handleChange}
+          required
+          autoComplete="off"
+        />
+
+        <label htmlFor="home address">Home Address:</label>
+        <input
+          type="text"
+          id="home_address"
+          name="home_address"
+          value={formData.home_address}
           onChange={handleChange}
           required
           autoComplete="off"

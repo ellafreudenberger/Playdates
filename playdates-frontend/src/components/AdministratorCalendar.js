@@ -29,6 +29,7 @@ function PlaydatesAdministratorCalendar() {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "", availableSlots: "0" });
   const [allEvents, setAllEvents] = useState(events);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [editMode, setEditMode] = useState(false); 
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -95,7 +96,52 @@ function PlaydatesAdministratorCalendar() {
 
   const handleCloseModal = () => {
     setSelectedEvent(null);
+    setEditMode(false); // Reset edit mode
   };
+
+  const handleEditEvent = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/admincalendar/${selectedEvent._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(selectedEvent),
+      });
+
+      if (response.ok) {
+        const updatedEvent = await response.json();
+        setAllEvents((prevEvents) =>
+          prevEvents.map((event) => (event._id === updatedEvent._id ? updatedEvent : event))
+        );
+        handleCloseModal(); // Close the modal after editing
+      } else {
+        console.error('Failed to edit event');
+      }
+    } catch (error) {
+      console.error('Error editing event', error);
+    }
+  };
+
+  const handleDeleteEvent = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/admincalendar/${selectedEvent._id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setAllEvents((prevEvents) =>
+          prevEvents.filter((event) => event._id !== selectedEvent._id)
+        );
+        handleCloseModal(); // Close the modal after deleting
+      } else {
+        console.error('Failed to delete event');
+      }
+    } catch (error) {
+      console.error('Error deleting event', error);
+    }
+  };
+
 
   return (
     <div>
@@ -141,15 +187,15 @@ function PlaydatesAdministratorCalendar() {
           />
         </div>
         <div>
-          <span>Slots Available: </span>
+          <span>Spots Available: </span>
           <input
-            type="number"
+            type="number" min="1" // makes sure 1 is the minimum number
             id="slotsAvailable"
             name="slotsAvailable"
             placeholder=""
             style={{ width: "20%", marginRight: "10px" }}
-            value={newEvent.slots}
-            onChange={(e) => setNewEvent({ ...newEvent, availableSlots: e.target.value })}
+            value={newEvent.slotsAvailable}
+            onChange={(e) => setNewEvent({ ...newEvent, availableSlots: Math.max(1, e.target.value) })}
           />
           <button style={{ marginTop: "10px" }} onClick={handleAddEvent}>
             Add Event
@@ -172,20 +218,24 @@ function PlaydatesAdministratorCalendar() {
           };
         }}
       />
-      <Modal
-        open={!!selectedEvent}
-        title={selectedEvent?.title}
-        onCancel={handleCloseModal}
-        footer={[
-          <Button key="cancel" onClick={handleCloseModal}>
-            Close
-          </Button>,
-        ]}
-      >
-        <p>Slots Available: {selectedEvent?.availableSlots}</p>
-      </Modal>
+    <Modal
+      open={!!selectedEvent}
+      title={selectedEvent?.title}
+      onCancel={handleCloseModal}
+      footer={[
+        <Button key="edit" type="primary" onClick={() => setEditMode(true)}>
+          {editMode ? 'Save' : 'Edit'}
+        </Button>,
+        <Button key="delete" type="danger" onClick={editMode ? handleDeleteEvent : handleCloseModal}>
+          {editMode ? 'Delete' : 'Close'}
+        </Button>,
+      ]}
+    >
+      <p>Spots Available: {selectedEvent?.availableSlots}</p>
+    </Modal>
     </div>
-  );
+);
 }
 
 export default PlaydatesAdministratorCalendar;
+
