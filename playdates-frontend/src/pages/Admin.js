@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 export const Admin = () => {
   const [htmlContent, setHtmlContent] = useState('');
 
+  useEffect(() =>
+  fetch('http://localhost:3000/admin'))
+
   useEffect(() => {
     // Fetch HTML content from the backend when the component mounts
     fetch('http://localhost:3000/admin')

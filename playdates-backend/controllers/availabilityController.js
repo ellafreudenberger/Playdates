@@ -1,6 +1,9 @@
 // Function to check availability based on the submitted form data
 const checkAvailability = async (formData) => {
     const { service, start_date, start_time, end_date, end_time } = formData;
+
+// Import Bookings model from MongoDB
+    const Bookings = require('../models/booking')
   
     // Retrieve existing bookings for the selected date/time range
     const existingBookings = await Bookings.find({
@@ -28,7 +31,7 @@ const checkAvailability = async (formData) => {
       
             // Check if there are already two sitting bookings or if there are no boarding bookings
             if (sittingBookings.length >= 2 || boardingBookings.length === 0) {
-              return { available: false, message: 'Maximum dog sitters reached for this day or no boarding scheduled.' };
+              return { available: false, message: 'Maximum dog sitters reached for this day.' };
             }
             break;
   
@@ -40,7 +43,7 @@ const checkAvailability = async (formData) => {
                 booking.end_time > start_time
             );
             if (overlappingWalk) {
-              return { available: false, message: 'Walk not available during this time slot.' };
+              return { available: false, message: 'Walk not available during this time.' };
             }
             break;
     }

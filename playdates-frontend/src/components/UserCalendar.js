@@ -22,11 +22,11 @@ const localizer = dateFnsLocalizer({
 });
 
 function BookingsCalendar() {
-  const [selectedSlot, setSelectedSlot] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [venmoModalVisible, setVenmoModalVisible] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null); // initial defaul is no calendar day has been selectd yet
+  const [modalVisible, setModalVisible] = useState(false); //determines initial visibility as unseen and later pops up when this state changes to true 
+  const [venmoModalVisible, setVenmoModalVisible] = useState(false); //determines initial visibility as unseen and later pops up when this state changes to true 
   const [formData, setFormData] = useState({
-    service: '',
+    service: 'Walk',
     start_date: '',
     start_time: '',
     end_date: '',
@@ -53,15 +53,9 @@ function BookingsCalendar() {
 
    // Function to handle the submission of the form data
    const handleFormSubmit = async (formData) => {
-    // Check if any of the required string fields are empty
-    const requiredStringFields = ['service', 'start_date', 'start_time', 'end_date', 'end_time', 'address', 'notes'];
-    const emptyField = requiredStringFields.find(field => formData[field].trim() === '');
-  
-    if (emptyField) {
-      console.error(`${emptyField} field is required`);
-      // You might want to display an error message to the user
-      return;
-    }
+    // Make sure all fields have values
+    console.log(formData)
+
   
     try {
       // Make a POST request to your backend API
@@ -77,8 +71,8 @@ function BookingsCalendar() {
         console.log('Form submitted successfully:', response);
   
         // After form submission, reset the form data and close the modal
-        setFormData({
-          service: '',
+        formData({
+          service: 'Walk',
           start_date: '',
           start_time: '',
           end_date: '',
@@ -90,16 +84,19 @@ function BookingsCalendar() {
           zipcode: '',
           notes: '',
         });
-        handleModalCancel();
-      } else {
-        console.error('Failed to submit form');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      // Display an error message to users if needed
-    }
-  };
+       // Close the main modal
+      handleModalCancel();
 
+      // Open the Venmo modal
+      setVenmoModalVisible(true);
+    } else {
+      console.error('Failed to submit form');
+    }
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    // Display an error message to users if needed
+  }
+};
   // Function to handle the closing of the Venmo modal
   const handleCloseVenmoModal = () => {
     setVenmoModalVisible(false);
@@ -128,7 +125,7 @@ function BookingsCalendar() {
     <Button
       key="signup"
       type="primary"
-      onClick={() => handleFormSubmit(formData)}
+      onClick={async () => await handleFormSubmit(formData)}
     >
       Book
     </Button>,
@@ -143,9 +140,9 @@ function BookingsCalendar() {
         value={formData.service}
         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
       >
-        <option value="walk">Walk</option>
-        <option value="sitting">Sitting</option>
-        <option value="boarding">Boarding</option>
+        <option value="Walk">Walk</option>
+        <option value="Sitting">Sitting</option>
+        <option value="Boarding">Boarding</option>
       </select>
     </label>
     <br />
@@ -172,7 +169,7 @@ function BookingsCalendar() {
         onChange={(e) =>
           setFormData({ ...formData, start_time: e.target.value })
         }
-      />
+         />
     </label>
     <br />
 
@@ -203,8 +200,8 @@ function BookingsCalendar() {
       <input
         id="street"
         type="text"
-        value={formData.address}
-        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+        value={formData.street}
+        onChange={(e) => setFormData({ ...formData, street: e.target.value })}
       />
     </label>
     <br />

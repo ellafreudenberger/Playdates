@@ -9,7 +9,7 @@ mongoose.connect('mongodb://localhost:27017/Playdates', {
 const BookingsSchema = new mongoose.Schema({
   service: {
     type: String,
-    enum: ['walk', 'sitting', 'boarding'],
+    enum: ['Walk', 'Sitting', 'Boarding'],
     required: true,
   },
   start_date: { type: Date, required: true },
