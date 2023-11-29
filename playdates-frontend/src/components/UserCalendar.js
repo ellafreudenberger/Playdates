@@ -52,49 +52,48 @@ function BookingsCalendar() {
   };
 
    // Function to handle the submission of the form data
-   const handleFormSubmit = async (formData) => {
-    // Make sure all fields have values
-    console.log(formData)
+const handleFormSubmit = async (formData) => {
+  // Make sure all fields have values
+  console.log(formData);
 
-  
-    try {
-      // Make a POST request to your backend API
-      const response = await fetch('http://localhost:3000/bookings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+  try {
+    // Make a POST request to your backend API
+    const response = await fetch('http://localhost:3000/bookings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      console.log('Form submitted successfully:', response);
+
+      // After form submission, reset the form data and close the modal
+      setFormData({
+        service: 'Walk',
+        start_date: '',
+        start_time: '',
+        end_date: '',
+        end_time: '',
+        street: '',
+        apartment: '',
+        city: '',
+        state: '',
+        zipcode: '',
+        notes: '',
       });
-  
-      if (response.ok) {
-        console.log('Form submitted successfully:', response);
-  
-        // After form submission, reset the form data and close the modal
-        formData({
-          service: 'Walk',
-          start_date: '',
-          start_time: '',
-          end_date: '',
-          end_time: '',
-          street: '',
-          apartment: '',
-          city: '',
-          state: '',
-          zipcode: '',
-          notes: '',
-        });
-       // Close the main modal
+
+      // Close the main modal
       handleModalCancel();
 
-      // Open the Venmo modal
+      // Open the Venmo modal only if the booking is successful
       setVenmoModalVisible(true);
     } else {
       console.error('Failed to submit form');
     }
   } catch (error) {
     console.error('Error submitting form:', error);
-    // Display an error message to users if needed
   }
 };
   // Function to handle the closing of the Venmo modal
