@@ -272,8 +272,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
   </form>
-  </Modal>;
-
+  </Modal>
       {/* Venmo Modal */}
       <Modal
         open={venmoModalVisible}

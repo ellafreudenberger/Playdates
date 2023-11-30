@@ -1,7 +1,7 @@
 //https://www.youtube.com/watch?v=Uz35Qiia84g
 import React from "react";
-import {ReactComponent as Sun} from "../codedpictures/Moon.svg";
-import {ReactComponent as Moon} from "../codedpictures/Sun.svg";
+import SvgSleepingdog from "../icons/Sleepingdog"
+import SvgLeapingdog from "../icons/Leapingdog.js";
 import "../DarkModeToggleButton.css"
 
 const DarkModeToggle = () => {
@@ -13,8 +13,8 @@ const DarkModeToggle = () => {
             id='darkmode-toggle'
         />
         <label className='dark_mode_label' for='darkmode-toggle'>
-            <Sun />
-            <Moon />
+            <SvgSleepingdog />
+            <SvgLeapingdog />
         </label>
     </div>
 );

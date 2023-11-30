@@ -1,6 +1,8 @@
 .dark_mode {
-    margin-top: -20px;
-    margin-left: 10px;
+    top: 20px;
+    right: 110px;
+    transform: scale(1.9);
+    position: fixed;
 }
 
 .dark_mode_label {
@@ -8,10 +10,10 @@
     height: 30px;
     position: relative;
     display: block;
-    background: #ebebeb;
+    background: #ebebeb22;
     border-radius: 200px;
     box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4),
-        inset 0px -5px 15px rgba(255, 255, 255, 0.4);
+        inset 0px -5px 15px rgba(255, 255, 255, 0.39);
     cursor: pointer;
     transition: 0.3s;
 }
@@ -19,12 +21,12 @@
     content: "";
     width: 25px;
     height: 25px;
-    position: absolute;
     top: 3px;
+    position: absolute;
     left: 3px;
-    background: linear-gradient(180deg, #ffcc89, #d8860b);
+    background: linear-gradient(180deg, #b93002, #e07102);
     border-radius: 180px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0);
     transition: 0.3s;
 }
 .dark_mode_input {
@@ -38,7 +40,7 @@
 .dark_mode_input:checked + .dark_mode_label:after {
     left: 62px;
     transform: translateX(-100%);
-    background: linear-gradient(180deg, #777, #3a3a3a);
+    background: linear-gradient(180deg, #6f43c9, #501d8a);
 }
 .dark_mode_label:active:after {
     width: 30px;
@@ -50,19 +52,13 @@
     top: 5px;
     z-index: 100;
 }
-.dark_mode_label svg.sun {
-    left: 5px;
-    fill: #fff;
-    transition: 0.3s;
+.dark_mode_label .SvgLeapingdog {
+    left: 6px;
+    transform: scale(1.2);
 }
-.dark_mode_label svg.moon {
-    left: 40px;
-    fill: #7e7e7e;
-    transition: 0.3s;
-}
-.dark_mode_input:checked + .dark_mode_label svg.sun {
-    fill: #7e7e7e;
-}
-.dark_mode_input:checked + .dark_mode_label svg.moon {
-    fill: #fff;
+
+.dark_mode_label .SvgSleepingdog {
+    left: 39px;
+    transform: scale(2);
+    height: 19px;
 }
