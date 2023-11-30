@@ -87,3 +87,21 @@
   justify-content: center;
   margin-top: 5%;
 }
+
+/* 404 page styling */
+
+.errorPageTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.errorPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+}

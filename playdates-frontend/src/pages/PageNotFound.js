@@ -1,8 +1,10 @@
+import '../index.css'
+
 export const PageNotFound = () => {
     return (
     <>
-    <h1>404: PAGE NOT FOUND</h1> 
-    <p>Oops, sorry, we can't find this page!</p>
+    <h1 className='errorPageTitle'>404: PAGE NOT FOUND</h1> 
+    <p className='errorPage'>Sorry, this page does not exist!</p>
     </>
     )
 }

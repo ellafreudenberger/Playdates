@@ -20,7 +20,7 @@ const App = () => {
         <Route path="/admin" element={<Admin />} />
         <Route path="/adminlogin" element={<AdminsLogin />} />
         <Route path="/calendar" element={<BookingsCalendar />} />
-        <Route path="/PageNotFound" element={<PageNotFound />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );
