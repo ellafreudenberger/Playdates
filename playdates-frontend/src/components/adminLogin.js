@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../index.css'
 
 const AdminLoginForm = () => {
   const navigate = useNavigate();
@@ -7,7 +8,6 @@ const AdminLoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -21,8 +21,6 @@ const AdminLoginForm = () => {
     event.preventDefault();
 
     try {
-      setLoading(true);
-
       // Send the login data to the backend for validation
       const response = await fetch('http://localhost:3000/adminlogin', {
         method: 'POST',
@@ -44,17 +42,14 @@ const AdminLoginForm = () => {
     } catch (error) {
       console.error(error);
       setLoginError('An error occurred during login.');
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
-        <input
+    <div className="adminLoginContainer">
+      <form onSubmit={handleSubmit} className='adminLoginForm'>
+        <label htmlFor="username">Username</label>
+        <input 
           type="text"
           id="username"
           name="username"
@@ -64,7 +59,7 @@ const AdminLoginForm = () => {
           autoComplete="off"
         />
 
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           id="password"
@@ -74,17 +69,15 @@ const AdminLoginForm = () => {
           required
           autoComplete="off"
         />
-
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+        
+        <button type="submit" className='adminLoginButton'>
+          Login
         </button>
 
-        {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+        {loginError && <p className="error-message">Sorry, there was an error logging you in!</p>}
       </form>
     </div>
   );
 };
 
 export default AdminLoginForm;
-
-  
