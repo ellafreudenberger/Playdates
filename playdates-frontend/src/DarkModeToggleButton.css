@@ -1,64 +1,88 @@
-.dark_mode {
-    top: 20px;
-    right: 110px;
-    transform: scale(1.9);
-    position: fixed;
+/* .dark_mode {
+  display: flex;
+  margin-left: auto;
+  position: flex;
+  justify-content: flex-end;
+  margin-right: 100px;
+  z-index: 1;
 }
 
 .dark_mode_label {
-    width: 65px;
-    height: 30px;
-    position: relative;
-    display: block;
-    background: #ebebeb22;
-    border-radius: 200px;
-    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4),
-        inset 0px -5px 15px rgba(255, 255, 255, 0.39);
-    cursor: pointer;
-    transition: 0.3s;
+width: 65px;
+height: 30px;
+position: relative;
+display: block;
+background: #ebebeb22;
+border-radius: 200px;
+box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4),
+  inset 0px -5px 15px rgba(255, 255, 255, 0.39);
+cursor: pointer;
+transition: 0.3s;
 }
+
 .dark_mode_label:after {
-    content: "";
-    width: 25px;
-    height: 25px;
-    top: 3px;
-    position: absolute;
-    left: 3px;
-    background: linear-gradient(180deg, #b93002, #e07102);
-    border-radius: 180px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0);
-    transition: 0.3s;
+content: "";
+width: 25px;
+height: 25px;
+top: 3px;
+position: absolute;
+left: 3px;
+background: linear-gradient(180deg, #b93002, #e07102);
+border-radius: 180px;
+box-shadow: 0px 5px 10px rgba(0, 0, 0, 0);
+transition: 0.3s;
 }
+
 .dark_mode_input {
-    width: 0;
-    height: 0;
-    visibility: hidden;
+visibility: hidden;
 }
+
 .dark_mode_input:checked + .dark_mode_label {
-    background: #242424;
+background: #242424;
 }
+
 .dark_mode_input:checked + .dark_mode_label:after {
-    left: 62px;
-    transform: translateX(-100%);
-    background: linear-gradient(180deg, #6f43c9, #501d8a);
+left: 62px;
+transform: translateX(-100%);
+background: linear-gradient(180deg, #6f43c9, #501d8a);
 }
+
 .dark_mode_label:active:after {
-    width: 30px;
+width: 30px;
 }
 
 .dark_mode_label svg {
-    position: absolute;
-    width: 20px;
-    top: 5px;
-    z-index: 100;
+position: absolute;
+width: 20px;
+top: 5px;
+z-index: 100;
 }
+
+.dark_mode_active .background {
+opacity: 1;
+background: black;
+}
+
 .dark_mode_label .SvgLeapingdog {
-    left: 6px;
-    transform: scale(1.2);
+left: 6px;
+transform: scale(1.2);
 }
 
 .dark_mode_label .SvgSleepingdog {
-    left: 39px;
-    transform: scale(2);
-    height: 19px;
+left: 39px;
+transform: scale(2);
+height: 19px;
 }
+
+ .darkbackground {
+  background: black;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 10;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+*/

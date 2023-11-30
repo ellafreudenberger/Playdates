@@ -1,3 +1,5 @@
+//https://freesvg.org/restingsleeping-dog
+
 import * as React from "react";
 const SvgSleepingdog = (props) => (
   <svg

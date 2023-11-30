@@ -1,3 +1,5 @@
+//https://frugalfitzdesigns.com/15-free-dog-svg-files/
+
 import * as React from "react";
 const SvgLeapingdog = (props) => (
   <svg
