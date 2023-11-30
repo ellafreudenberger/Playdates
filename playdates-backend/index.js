@@ -12,6 +12,14 @@ const Admins = require('./models/admin');
 
 const app = express();
 
+// Session middleware
+const session = require('express-session');
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+}));
+
 // Database connection
 const connectDB = require('./database/dbconnect');
 connectDB();
@@ -75,12 +83,15 @@ app.post('/adminlogin', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Check if the password is correct using bcrypt
+    // Compare the provided password with the hashed password in the database
     const isPasswordValid = await bcrypt.compare(password, admin.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
+
+    // Create a session upon successful login
+    req.session.adminId = admin._id;
 
     // Login successful
     res.status(200).json({ message: 'Login successful' });
@@ -90,6 +101,7 @@ app.post('/adminlogin', async (req, res) => {
   }
 });
 
+
 // Admin page route
 app.get('/admin', authenticateAdmin, async (req, res) => {
   try {
@@ -98,6 +110,20 @@ app.get('/admin', authenticateAdmin, async (req, res) => {
 
     // Render the admin page with user data
     res.render('admin', { userData });
+  } catch (error) {
+    console.error('Error fetching user data', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Retrieve all bookings from the database 
+app.get('/admin', async (req, res) => {
+  try {
+    // Retrieve all bookings from the database
+    const allBookings = await Bookings.find();
+
+   // Render the admin page with user data
+   res.render('admin', { bookingData });
   } catch (error) {
     console.error('Error fetching user data', error);
     res.status(500).send('Internal Server Error');

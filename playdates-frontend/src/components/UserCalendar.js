@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Button, Modal } from 'antd';
 
 const locales = {
-  'en-US': require('date-fns/locale/en-US'),
+  'en-US': require('date-fns/locale/'),
 };
 
 const localizer = dateFnsLocalizer({
@@ -27,9 +27,9 @@ function BookingsCalendar() {
   const [venmoModalVisible, setVenmoModalVisible] = useState(false); //determines initial visibility as unseen and later pops up when this state changes to true 
   const [formData, setFormData] = useState({
     service: 'Walk',
-    start_date: '',
+    start_date: 'formattedDate',
     start_time: '',
-    end_date: '',
+    end_date: 'formattedDate',
     end_time: '',
     street: '',
     apartment: '',
@@ -39,11 +39,23 @@ function BookingsCalendar() {
     notes: '',
   });
 
-  // Function to handle the selection of a time slot in the calendar
+  // Set date in form to the date clicked on
   const handleSelectSlot = (slotInfo) => {
+    const { start } = slotInfo;
+  
+    // Set end_date and end_time to the same as start_date and start_time
+    const formattedDate = format(start, 'yyyy-MM-dd');
+  
+    setFormData({
+      ...formData,
+      start_date: formattedDate,
+      end_date: formattedDate,
+    });
+  
     setSelectedSlot(slotInfo);
     setModalVisible(true);
   };
+  
 
   // Function to handle the cancellation of the modal
   const handleModalCancel = () => {
@@ -72,9 +84,9 @@ const handleFormSubmit = async (formData) => {
       // After form submission, reset the form data and close the modal
       setFormData({
         service: 'Walk',
-        start_date: '',
+        start_date: 'formattedDate',
         start_time: '',
-        end_date: '',
+        end_date: 'formattedDate',
         end_time: '',
         street: '',
         apartment: '',
@@ -274,6 +286,7 @@ const handleFormSubmit = async (formData) => {
         ]}
       >
         <img src="/images/venmo.jpeg" alt="Venmo QR Code" style={{ maxWidth: '100%' }} />
+        <h1> Thank you for booking with us! Please submit payment by scanning our venmo.</h1>
       </Modal>
     </div>
   );

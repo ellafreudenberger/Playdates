@@ -17,5 +17,20 @@
             <li><%= user.behavior %></li>
         <% }); %>
     </ul>
+    <h1>Bookings</h1>
+    <ul>
+        <% bookingData.forEach(booking => { %>
+            <li><%= booking.service %></li>
+            <li><%= booking.start_date %></li>
+            <li><%= booking.start_time %></li>
+            <li><%= booking.end_date %></li>
+            <li><%= booking.end_time %></li>
+            <li><%= booking.street %></li>
+            <li><%= booking.city %></li>
+            <li><%= booking.state %></li>
+            <li><%= booking.zipcode %></li>
+            <li><%= booking.notes %></li>
+        <% }); %>
+    </ul>
 </body>
 </html>

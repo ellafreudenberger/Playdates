@@ -30,7 +30,7 @@ const checkAvailability = async (formData) => {
             );
       
             // Check if there are already two sitting bookings or if there are no boarding bookings
-            if (sittingBookings.length >= 2 || boardingBookings.length === 0) {
+            if (sittingBookings.length >= 2 || boardingBookings.length === 1) {
               return { available: false, message: 'Maximum dog sitters reached for this day.' };
             }
             break;
