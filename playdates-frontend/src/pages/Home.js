@@ -1,6 +1,8 @@
+import "../index.css"
+
 export const Home = () => {
     return (
-    <h1>Welcome to Playdates!</h1> 
+    <h1 className="homeTitle">Welcome to Playdates!</h1> 
     );
 }
 

@@ -77,3 +77,13 @@
   padding: 8px;
   width: 100%;
 }
+
+/* Home page styling */
+
+.homeTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+}
