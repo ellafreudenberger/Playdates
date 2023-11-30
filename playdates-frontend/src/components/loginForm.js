@@ -83,7 +83,7 @@ const Login = () => {
             Login
           </Button>
   
-          {loginError && <p className="error-message">Sorry, there was an error logging you in!</p>}
+          {loginError && <p className="error-message">Sorry, that login entry doesn't match our records!</p>}
         </Form>
       </div>
     );

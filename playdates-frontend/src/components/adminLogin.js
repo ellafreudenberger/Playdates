@@ -74,7 +74,7 @@ const AdminLoginForm = () => {
           Login
         </button>
 
-        {loginError && <p className="error-message">Sorry, there was an error logging you in!</p>}
+        {loginError && <p className="error-message">Sorry, you are not permitted here!</p>}
       </form>
     </div>
   );

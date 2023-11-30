@@ -8,6 +8,7 @@ import startOfWeek from 'date-fns/startOfWeek';
 import getDay from 'date-fns/getDay';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Button, Modal } from 'antd';
+import '../index.css'
 
 const locales = {
   'en-US': require('date-fns/locale/'),
@@ -115,7 +116,7 @@ const handleFormSubmit = async (formData) => {
 
   return (
     <div>
-      <Calendar
+      <Calendar className='calendar'
         localizer={localizer}
         startAccessor="start"
         endAccessor="end"
@@ -144,8 +145,9 @@ const handleFormSubmit = async (formData) => {
 >
   {/*Booking Form*/}
   <form onSubmit={(e) => e.preventDefault()}>
+  <div className='bookingForm'>
     <label>
-      Service:
+      Service
       <select
         id="service"
         value={formData.service}
@@ -159,7 +161,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      Start Date:
+      Start Date
       <input
         id="start_date"
         type="date"
@@ -172,7 +174,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      Start Time:
+      Start Time
       <input
         id="start_time"
         type="time"
@@ -185,7 +187,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      End Date:
+      End Date
       <input
         id="end_date"
         type="date"
@@ -196,7 +198,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      End Time:
+      End Time
       <input
         id="end_time"
         type="time"
@@ -207,7 +209,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      Street:
+      Street
       <input
         id="street"
         type="text"
@@ -218,7 +220,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      Apartment:
+      Apartment
       <input
         id="apartment"
         type="text"
@@ -229,7 +231,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      City:
+      City
       <input
         id="city"
         type="text"
@@ -240,7 +242,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      State:
+      State
       <input
         id="state"
         type="text"
@@ -251,7 +253,7 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      Zipcode:
+      Zipcode
       <input
         id="zipcode"
         type="text"
@@ -262,15 +264,15 @@ const handleFormSubmit = async (formData) => {
     <br />
 
     <label>
-      Notes:
-      <textarea
+      Notes for us!
+      <input
         id="notes"
         value={formData.notes}
         onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
       />
     </label>
     <br />
-
+</div>
   </form>
   </Modal>
 
