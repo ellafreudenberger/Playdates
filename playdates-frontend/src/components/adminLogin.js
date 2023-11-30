@@ -40,7 +40,7 @@ const AdminLoginForm = () => {
 
       // Login successful
       setLoginError('');
-      navigate('/admin'); // Redirect to the calendar page
+      navigate('/admin'); // Redirect to the admin page
     } catch (error) {
       console.error(error);
       setLoginError('An error occurred during login.');

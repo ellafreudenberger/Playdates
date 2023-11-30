@@ -24,17 +24,17 @@ app.use(session({
 const connectDB = require('./database/dbconnect');
 connectDB();
 
-//Views path
-const path = require('path');
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
 // Middleware to parse JSON and urlencoded data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // CORS middleware to complete cross-origin requests between servers
 app.use(cors());
+
+app.get('/admin', (req, res) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Credentials', true);
+});
 
 // Welcome page route
 app.get('/', (req, res) => {
@@ -102,31 +102,26 @@ app.post('/adminlogin', async (req, res) => {
 });
 
 
-// Admin page route
-app.get('/admin', authenticateAdmin, async (req, res) => {
+// Users page route
+app.get('/api/admin/users', authenticateAdmin, async (req, res) => {
   try {
-    // Fetch user data from the database
     const userData = await Users.find();
-
-    // Render the admin page with user data
-    res.render('admin', { userData });
+    res.json(userData);
   } catch (error) {
     console.error('Error fetching user data', error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// Retrieve all bookings from the database 
-app.get('/admin', async (req, res) => {
-  try {
-    // Retrieve all bookings from the database
-    const allBookings = await Bookings.find();
 
-   // Render the admin page with user data
-   res.render('admin', { bookingData });
+// Retrieve all bookings from the database 
+app.get('/api/admin/savedbookings', authenticateAdmin, async (req, res) => {
+  try {
+    const bookingData = await Bookings.find();
+    res.json(bookingData);
   } catch (error) {
-    console.error('Error fetching user data', error);
-    res.status(500).send('Internal Server Error');
+    console.error('Error fetching booking data', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
