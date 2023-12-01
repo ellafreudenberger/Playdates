@@ -196,27 +196,35 @@ app.post('/userlogin', async (req, res) => {
 // Booking route
 app.post('/bookings', async (req, res) => {
   try {
-    // Parse data from the request body
-    const bookingFormData = req.body;
-    console.log(bookingFormData)
+    // Assuming the request body contains booking information
+    const { service, start_date, start_time, end_date, end_time, street, apartment, city, state, zipcode, notes } = req.body;
 
-    // Create a new booking with the form data
-    const newBooking = new Bookings(bookingFormData);
+    // Create a new booking instance
+    const newBooking = new Bookings({
+      service,
+      start_date,
+      start_time,
+      end_date,
+      end_time,
+      street,
+      apartment,
+      city,
+      state,
+      zipcode,
+      notes,
+    });
 
-    // Call the checkAvailability function
-    const availabilityStatus = await checkAvailability(bookingFormData);
+    // Save the booking to the database
+    await newBooking.save();
 
-    // If the service is available, proceed with saving to the database
-    if (availabilityStatus.available) { const savedBooking = await newBooking.save ()
+    // Fetch all bookings from the database
+    const allBookings = await Bookings.find();
 
-      return res.status(200).json({ success: true, message: 'Booking successful.' });
-    } else {
-      // If the service is not available, return an error message to the frontend
-      return res.status(400).json({ success: false, message: availabilityStatus.message });
-    }
+    // Respond with the list of all bookings
+    res.status(201).json(allBookings);
   } catch (error) {
-    console.error('Error handling booking:', error);
-    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    console.error('Error creating booking:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 

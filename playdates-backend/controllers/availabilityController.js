@@ -11,6 +11,8 @@ const checkAvailability = async (formData) => {
       end_date: { $gte: start_date },
     });
   
+    console.log(existingBookings)
+    
     // Implement availability rules based on the type of service
     switch (service) {
       case 'boarding':
