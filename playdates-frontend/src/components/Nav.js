@@ -12,7 +12,7 @@ const PlaydatesNav = () => {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/register">Register</Nav.Link>
             <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link href="/adminlogin">Dog Sitters</Nav.Link>
+            <Nav.Link href="/dogsitters">Dog Sitters</Nav.Link>
             </Nav>
         </Container>
         </Navbar>

@@ -8,24 +8,27 @@ import Admin from './pages/Admin';
 import AdminsLogin from './pages/AdminsLogin';
 import BookingsCalendar from './components/UserCalendar';
 import PlaydatesNav from './components/Nav';
+import Footer from './components/Footer';
 
 const App = () => {
   return (
     <div>
-      <PlaydatesNav /> 
-      <Routes> 
+      <PlaydatesNav />
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/adminlogin" element={<AdminsLogin />} />
+        <Route path="/dogsitters" element={<AdminsLogin />} />
         <Route path="/calendar" element={<BookingsCalendar />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      <Footer />
     </div>
   );
 };
 
 export default App;
+
 
 // Routes is a parent container for all individual routes created 
