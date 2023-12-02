@@ -1,5 +1,5 @@
 // https://www.youtube.com/watch?v=lyRP_D0qCfk
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import format from 'date-fns/format';
@@ -8,7 +8,7 @@ import startOfWeek from 'date-fns/startOfWeek';
 import getDay from 'date-fns/getDay';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Button, Modal } from 'antd';
-import '../index.css'
+import '../index.css';
 
 const locales = {
   'en-US': require('date-fns/locale/'),
@@ -23,15 +23,18 @@ const localizer = dateFnsLocalizer({
 });
 
 function BookingsCalendar() {
-  const [selectedSlot, setSelectedSlot] = useState(null); // initial defaul is no calendar day has been selectd yet
+  const [bookedTimes, setBookedTimes] = useState([]);
+  const [selectedSlot, setSelectedSlot] = useState(null); // initial default is no calendar day has been selectd yet
   const [modalVisible, setModalVisible] = useState(false); //determines initial visibility as unseen and later pops up when this state changes to true 
   const [venmoModalVisible, setVenmoModalVisible] = useState(false); //determines initial visibility as unseen and later pops up when this state changes to true 
+ 
+
   const [formData, setFormData] = useState({
     service: 'Walk',
     start_date: 'formattedDate',
-    start_time: '',
+    start_time: 'formattedTime',
     end_date: 'formattedDate',
-    end_time: '',
+    end_time: 'formattedTime',
     street: '',
     apartment: '',
     city: '',
@@ -40,23 +43,74 @@ function BookingsCalendar() {
     notes: '',
   });
 
+  // Fetch booked times before rendering the component
+  const fetchBookedTimes = useCallback(async () => {
+    try {
+      const response = await fetch('http://localhost:3000/bookings');
+      if (response.ok) {
+        const data = await response.json();
+        // Filter booked times based on the current service type and overlapping conditions
+        const filteredBookedTimes = data
+          .filter((booking) => {
+            const isSameService = booking.service === formData.service;
+            const isOverlapping =
+              booking.start_date === formData.start_date &&
+              booking.end_date === formData.end_date &&
+              ((booking.start_time >= formData.start_time &&
+                booking.start_time < formData.end_time) ||
+                (booking.end_time > formData.start_time &&
+                  booking.end_time <= formData.end_time) ||
+                (booking.start_time <= formData.start_time &&
+                  booking.end_time >= formData.start_time) ||
+                (booking.start_time <= formData.end_time &&
+                  booking.end_time >= formData.end_time));
+  
+            return isSameService && isOverlapping;
+          })
+          .map((booking) => ({
+            start: new Date(`${booking.start_date}T${booking.start_time}`),
+            end: new Date(`${booking.end_date}T${booking.end_time}`),
+          }));
+  
+        setBookedTimes(filteredBookedTimes);
+      } else {
+        console.error('Failed to fetch booked times');
+      }
+    } catch (error) {
+      console.error('Error fetching booked times:', error);
+    }
+  }, [formData, setBookedTimes]);
+    useEffect(() => {
+      const fetchData = async () => {
+        await fetchBookedTimes();
+      };
+    
+      fetchData();
+    
+      // Include fetchBookedTimes in the dependency array
+    }, [fetchBookedTimes]);
+  
+
   // Set date in form to the date clicked on
   const handleSelectSlot = (slotInfo) => {
     const { start } = slotInfo;
   
-    // Set end_date and end_time to the same as start_date and start_time
+    // Set start_date, end_date, start_time, and end_time based on the selected slot
     const formattedDate = format(start, 'yyyy-MM-dd');
+    const formattedTime = format(start, 'HH:mm');
+
   
     setFormData({
       ...formData,
       start_date: formattedDate,
       end_date: formattedDate,
+      start_time: formattedTime,
+      end_time: formattedTime,
     });
   
     setSelectedSlot(slotInfo);
     setModalVisible(true);
   };
-  
 
   // Function to handle the cancellation of the modal
   const handleModalCancel = () => {
@@ -64,56 +118,90 @@ function BookingsCalendar() {
     setModalVisible(false);
   };
 
-   // Function to handle the submission of the form data
-const handleFormSubmit = async (formData) => {
-  // Make sure all fields have values
-  console.log(formData);
-
-  try {
-    // Make a POST request to your backend API
-    const response = await fetch('http://localhost:3000/bookings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (response.ok) {
-      console.log('Form submitted successfully:', response);
-
-      // After form submission, reset the form data and close the modal
-      setFormData({
-        service: 'Walk',
-        start_date: 'formattedDate',
-        start_time: '',
-        end_date: 'formattedDate',
-        end_time: '',
-        street: '',
-        apartment: '',
-        city: '',
-        state: '',
-        zipcode: '',
-        notes: '',
-      });
-
-      // Close the main modal
-      handleModalCancel();
-
-      // Open the Venmo modal only if the booking is successful
-      setVenmoModalVisible(true);
-    } else {
-      console.error('Failed to submit form');
-    }
-  } catch (error) {
-    console.error('Error submitting form:', error);
-  }
-};
-  // Function to handle the closing of the Venmo modal
   const handleCloseVenmoModal = () => {
     setVenmoModalVisible(false);
   };
+  
 
+  const handleFormSubmit = async (formData) => {
+    try {
+      const response = await fetch('http://localhost:3000/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        console.log('Form submitted successfully:', response);
+  
+        // Reset the form data
+        setFormData({
+          service: 'Walk',
+          start_date: 'formattedDate',
+          start_time: 'formattedTime',
+          end_date: 'formattedDate',
+          end_time: 'formattedTime',
+          street: '',
+          apartment: '',
+          city: '',
+          state: '',
+          zipcode: '',
+          notes: '',
+        });
+  
+        // Close the main modal
+        handleModalCancel();
+  
+        // Open the Venmo modal only if the booking is successful
+        setVenmoModalVisible(true);
+  
+        // Update booked times after successful form submission
+        await fetchBookedTimes(); 
+      } else {
+        console.error('Failed to submit form');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  }
+  
+  const generateTimeOptions = () => {
+    const options = [];
+  
+    for (let i = 0; i < 24 * 2; i++) {
+      const hours = Math.floor(i / 2);
+      const minutes = i % 2 === 0 ? '00' : '30';
+  
+      const formattedTime = format(new Date(0, 0, 0, hours, minutes), 'h:mm a');
+  
+      const isBooked = bookedTimes.some((bookingTime) => {
+        const bookingStartTime = format(bookingTime.start, 'h:mm a');
+        const bookingEndTime = format(bookingTime.end, 'h:mm a');
+        return (
+          formattedTime >= bookingStartTime && formattedTime < bookingEndTime
+        );
+      });
+  
+      if (isBooked) {
+        options.push(
+          <option key={formattedTime} value={formattedTime}>
+            {`${formattedTime} (Booked)`}
+          </option>
+        );
+      } else {
+        options.push(
+          <option key={formattedTime} value={formattedTime}>
+            {formattedTime}
+          </option>
+        );
+      }
+    }
+  
+    return options;
+  };  
+  
   return (
     <div>
       <Calendar className='calendar'
@@ -125,6 +213,7 @@ const handleFormSubmit = async (formData) => {
         onSelectSlot={handleSelectSlot}
         views={['month']} // Set the views prop to include only the month view
         defaultView="month" // Set the default view to month
+        events={bookedTimes} // Ensure events are passed here
       />
       <Modal
   open={!!modalVisible || !!selectedSlot}
@@ -146,7 +235,7 @@ const handleFormSubmit = async (formData) => {
   {/*Booking Form*/}
   <form onSubmit={(e) => e.preventDefault()}>
   <div className='bookingForm'>
-    <label>
+    <label id="service">
       Service
       <select
         id="service"
@@ -160,7 +249,7 @@ const handleFormSubmit = async (formData) => {
     </label>
     <br />
 
-    <label>
+    <label id="start_date">
       Start Date
       <input
         id="start_date"
@@ -173,20 +262,21 @@ const handleFormSubmit = async (formData) => {
     </label>
     <br />
 
-    <label>
+    <label id="start_time">
       Start Time
-      <input
+      <select
         id="start_time"
-        type="time"
         value={formData.start_time}
         onChange={(e) =>
           setFormData({ ...formData, start_time: e.target.value })
         }
-         />
+        >
+        {generateTimeOptions()}
+        </select>
     </label>
     <br />
 
-    <label>
+    <label id="end_date">
       End Date
       <input
         id="end_date"
@@ -197,18 +287,19 @@ const handleFormSubmit = async (formData) => {
     </label>
     <br />
 
-    <label>
+    <label id="end_time">
       End Time
-      <input
+      <select
         id="end_time"
-        type="time"
         value={formData.end_time}
         onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
-      />
+      >
+      {generateTimeOptions()}
+      </select>
     </label>
     <br />
 
-    <label>
+    <label id="street">
       Street
       <input
         id="street"
@@ -219,7 +310,7 @@ const handleFormSubmit = async (formData) => {
     </label>
     <br />
 
-    <label>
+    <label id="apartment">
       Apartment
       <input
         id="apartment"
@@ -230,7 +321,7 @@ const handleFormSubmit = async (formData) => {
     </label>
     <br />
 
-    <label>
+    <label id="city">
       City
       <input
         id="city"
@@ -241,7 +332,7 @@ const handleFormSubmit = async (formData) => {
     </label>
     <br />
 
-    <label>
+    <label id="state">
       State
       <input
         id="state"
@@ -252,7 +343,7 @@ const handleFormSubmit = async (formData) => {
     </label>
     <br />
 
-    <label>
+    <label id="zipcode">
       Zipcode
       <input
         id="zipcode"
@@ -263,7 +354,7 @@ const handleFormSubmit = async (formData) => {
     </label>
     <br />
 
-    <label>
+    <label id="notes">
       Notes for us!
       <input
         id="notes"
@@ -306,7 +397,7 @@ const handleFormSubmit = async (formData) => {
         </h3>
       </Modal>
     </div>
-  );
-}
+  )
+};
 
-export default BookingsCalendar;
+export default BookingsCalendar

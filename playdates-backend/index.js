@@ -101,9 +101,8 @@ app.post('/adminlogin', async (req, res) => {
   }
 });
 
-
 // Users page route
-app.get('/api/admin/users', authenticateAdmin, async (req, res) => {
+app.get('/api/admin/users', async (req, res) => {
   try {
     const userData = await Users.find();
     res.json(userData);
@@ -113,9 +112,8 @@ app.get('/api/admin/users', authenticateAdmin, async (req, res) => {
   }
 });
 
-
 // Retrieve all bookings from the database 
-app.get('/api/admin/savedbookings', authenticateAdmin, async (req, res) => {
+app.get('/api/admin/savedbookings', async (req, res) => {
   try {
     const bookingData = await Bookings.find();
     res.json(bookingData);
@@ -124,6 +122,7 @@ app.get('/api/admin/savedbookings', authenticateAdmin, async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 // Registration route
 app.post('/register', async (req, res) => {
@@ -196,10 +195,8 @@ app.post('/userlogin', async (req, res) => {
 // Booking route
 app.post('/bookings', async (req, res) => {
   try {
-    // Assuming the request body contains booking information
     const { service, start_date, start_time, end_date, end_time, street, apartment, city, state, zipcode, notes } = req.body;
 
-    // Create a new booking instance
     const newBooking = new Bookings({
       service,
       start_date,
@@ -214,7 +211,6 @@ app.post('/bookings', async (req, res) => {
       notes,
     });
 
-    // Save the booking to the database
     await newBooking.save();
 
     // Fetch all bookings from the database
@@ -227,6 +223,27 @@ app.post('/bookings', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+// Get bookings
+app.get('/bookings', async (req, res) => {
+  try {
+    // Fetch all bookings from the database
+    const allBookings = await Bookings.find();
+
+    // Extract the booked times from the bookings
+    const bookedTimes = allBookings.map((booking) => ({
+      start: new Date(`${booking.start_date}T${booking.start_time}`),
+      end: new Date(`${booking.end_date}T${booking.end_time}`),
+    }));
+
+    // Respond with both the list of all bookings and the booked times
+    res.status(200).json({ allBookings, bookedTimes });
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 
 // Start server
