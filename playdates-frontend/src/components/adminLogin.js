@@ -47,7 +47,7 @@ const AdminLoginForm = () => {
 
   return (
     <div className="adminLoginContainer">
-     <h2 className="adminLoginTitle">Dog Sitters Login</h2>
+     <h2 className="adminLoginTitle">Login for Dog Sitters</h2>
       <form onSubmit={handleSubmit} className='adminLoginForm'>
         <label htmlFor="username">Username</label>
         <input 
