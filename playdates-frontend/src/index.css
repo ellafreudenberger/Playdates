@@ -47,6 +47,19 @@
   margin-top: 10%;
 }
 
+.imageContainer {
+  display: flex;
+}
+
+.loginImage,
+.nextLoginImage {
+  margin-top: 10%;
+  margin-left: 10%;
+  display: flex;
+  height: 35%;
+  width: 35%;
+}
+
 
 /* Admin login form stling */
 .adminLoginContainer {
@@ -317,6 +330,7 @@
   background: black;
   color: white;
   border: none;
+  margin: 1%;
 }
 
 /* Clients Table */
