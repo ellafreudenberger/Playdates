@@ -22,6 +22,7 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
+
 function BookingsCalendar() {
   const [bookedTimes, setBookedTimes] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null); // initial default is no calendar day has been selectd yet
@@ -43,53 +44,76 @@ function BookingsCalendar() {
     notes: '',
   });
 
-  // Fetch booked times before rendering the component
   const fetchBookedTimes = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3000/bookings');
       if (response.ok) {
         const data = await response.json();
-        // Filter booked times based on the current service type and overlapping conditions
-        const filteredBookedTimes = data
-          .filter((booking) => {
-            const isSameService = booking.service === formData.service;
-            const isOverlapping =
-              booking.start_date === formData.start_date &&
-              booking.end_date === formData.end_date &&
-              ((booking.start_time >= formData.start_time &&
-                booking.start_time < formData.end_time) ||
-                (booking.end_time > formData.start_time &&
-                  booking.end_time <= formData.end_time) ||
-                (booking.start_time <= formData.start_time &&
-                  booking.end_time >= formData.start_time) ||
-                (booking.start_time <= formData.end_time &&
-                  booking.end_time >= formData.end_time));
+        const bookedTimes = data.map((booking) => ({
+          start: parse(
+            `${booking.start_date}T${booking.start_time}`,
+            'yyyy-MM-ddTHH:mm',
+            new Date()
+          ),
+          end: parse(
+            `${booking.end_date}T${booking.end_time}`,
+            'yyyy-MM-ddTHH:mm',
+            new Date()
+          ),
+        }));
   
-            return isSameService && isOverlapping;
-          })
-          .map((booking) => ({
-            start: new Date(`${booking.start_date}T${booking.start_time}`),
-            end: new Date(`${booking.end_date}T${booking.end_time}`),
-          }));
-  
-        setBookedTimes(filteredBookedTimes);
+        // Update the state with the fetched booked times
+        setBookedTimes(bookedTimes);
       } else {
         console.error('Failed to fetch booked times');
       }
     } catch (error) {
       console.error('Error fetching booked times:', error);
     }
-  }, [formData, setBookedTimes]);
-    useEffect(() => {
-      const fetchData = async () => {
-        await fetchBookedTimes();
-      };
-    
-      fetchData();
-    
-      // Include fetchBookedTimes in the dependency array
-    }, [fetchBookedTimes]);
-  
+  }, [setBookedTimes]);  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchBookedTimes();
+    };
+
+    fetchData();
+
+    // Include fetchBookedTimes in the dependency array
+  }, [fetchBookedTimes]);
+
+  const generateTimeOptions = () => {
+    const options = [];
+
+    for (let i = 0; i < 24 * 2; i++) {
+      const hours = Math.floor(i / 2);
+      const minutes = i % 2 === 0 ? '00' : '30';
+      const formattedTime = format(new Date(0, 0, 0, hours, minutes), 'h:mm a');
+
+      // Check if the current time option is booked
+      const isBooked = bookedTimes.some((bookingTime) => {
+        const bookingStartTime = format(bookingTime.start, 'h:mm a');
+        const bookingEndTime = format(bookingTime.end, 'h:mm a');
+
+        // Check if the formatted time is within the booking time range
+        return (
+          formattedTime >= bookingStartTime && formattedTime < bookingEndTime
+        );
+      });
+
+      // Add the time option to the list only if it's not booked
+      if (!isBooked) {
+        options.push(
+          <option key={formattedTime} value={formattedTime}>
+            {formattedTime}
+          </option>
+        );
+      }
+    }
+
+    return options;
+  };
+
 
   // Set date in form to the date clicked on
   const handleSelectSlot = (slotInfo) => {
@@ -124,6 +148,22 @@ function BookingsCalendar() {
   
 
   const handleFormSubmit = async (formData) => {
+    // Check if required fields are filled
+    if (
+      formData.start_date === 'formattedDate' ||
+      formData.start_time === 'formattedTime' ||
+      formData.end_date === 'formattedDate' ||
+      formData.end_time === 'formattedTime' ||
+      formData.street === '' ||
+      formData.city === '' ||
+      formData.state === '' ||
+      formData.zipcode === ''
+    ) {
+      // Display an alert if any required field is empty
+      alert('Please fill in all of the fields unless you do not have an apartment.');
+      return;
+    }
+  
     try {
       const response = await fetch('http://localhost:3000/bookings', {
         method: 'POST',
@@ -158,49 +198,15 @@ function BookingsCalendar() {
         setVenmoModalVisible(true);
   
         // Update booked times after successful form submission
-        await fetchBookedTimes(); 
+        await fetchBookedTimes();
       } else {
         console.error('Failed to submit form');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
     }
-  }
+  };
   
-  const generateTimeOptions = () => {
-    const options = [];
-  
-    for (let i = 0; i < 24 * 2; i++) {
-      const hours = Math.floor(i / 2);
-      const minutes = i % 2 === 0 ? '00' : '30';
-  
-      const formattedTime = format(new Date(0, 0, 0, hours, minutes), 'h:mm a');
-  
-      const isBooked = bookedTimes.some((bookingTime) => {
-        const bookingStartTime = format(bookingTime.start, 'h:mm a');
-        const bookingEndTime = format(bookingTime.end, 'h:mm a');
-        return (
-          formattedTime >= bookingStartTime && formattedTime < bookingEndTime
-        );
-      });
-  
-      if (isBooked) {
-        options.push(
-          <option key={formattedTime} value={formattedTime}>
-            {`${formattedTime} (Booked)`}
-          </option>
-        );
-      } else {
-        options.push(
-          <option key={formattedTime} value={formattedTime}>
-            {formattedTime}
-          </option>
-        );
-      }
-    }
-  
-    return options;
-  };  
   
   return (
     <div>

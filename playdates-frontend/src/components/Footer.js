@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Footer = () => {
   const contactContainerStyle = {
     backgroundColor: '#333333',
@@ -25,10 +27,10 @@ const Footer = () => {
     width: '99%',
   };
 
-  // Style for making text bold and slightly darker grey
+  // Style for making text bold and slightly darker grey for our names
   const boldStyle = {
     fontWeight: 'bold',
-    color: '#444444',  // You can adjust the color here
+    color: '#444444',  
   };
 
   return (

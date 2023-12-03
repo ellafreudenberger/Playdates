@@ -1,3 +1,4 @@
+import React from 'react';
 import '../index.css'
 
 export const PageNotFound = () => {
@@ -10,4 +11,4 @@ export const PageNotFound = () => {
 }
 
 export default PageNotFound;
-// Wrapped these React elements in React fragments because you can't return multiple top level elements from a React component
+// Wrapped these React elements in React fragments because multiple top level elements can't be returned from a React component

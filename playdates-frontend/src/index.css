@@ -313,6 +313,12 @@
   font-size: small;
 }
 
+.deleteButton {
+  background: black;
+  color: white;
+  border: none;
+}
+
 /* Clients Table */
 .clientsContainer {
   margin: 20px;

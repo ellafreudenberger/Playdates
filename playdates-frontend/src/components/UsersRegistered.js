@@ -7,7 +7,7 @@ const Users = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/admin/users');
+        const response = await fetch('http://localhost:3000/admin/users');
         if (response.ok) {
           const data = await response.json();
           setUserData(data);

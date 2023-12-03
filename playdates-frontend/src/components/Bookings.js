@@ -24,7 +24,7 @@ const Bookings = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/admin/savedbookings');
+        const response = await fetch('http://localhost:3000/admin/savedbookings');
         if (response.ok) {
           const data = await response.json();
           setBookingData(data);
@@ -50,6 +50,25 @@ const Bookings = () => {
   const filteredBookings = selectedStartDate
     ? bookingData.filter((booking) => booking.start_date === selectedStartDate)
     : bookingData; 
+
+
+const deleteBooking = async (bookingId) => {
+  try {
+    const response = await fetch(`http://localhost:3000/savedbookings/${bookingId}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      // Remove the deleted booking from the local state
+      setBookingData((prevData) => prevData.filter((booking) => booking._id !== bookingId));
+    } else {
+      console.error('Error deleting booking');
+    }
+  } catch (error) {
+    console.error('Error deleting booking:', error);
+  }
+};
+
 
     return (
       <div>
@@ -84,7 +103,7 @@ const Bookings = () => {
             <tbody>
               {filteredBookings.map((booking) => (
                 <tr key={booking._id} style={tableRowStyle}>
-                  <td style={tableCellStyle}>{booking.service}</td>
+                  <td style={tableCellStyle}>{booking.service}<button className='deleteButton' onClick={() => deleteBooking(booking._id)}>Delete</button></td>
                   <td style={tableCellStyle}>{new Date(booking.start_date).toLocaleDateString()}</td>
                   <td style={tableCellStyle}>{booking.start_time}</td>
                   <td style={tableCellStyle}>{new Date(booking.end_date).toLocaleDateString()}</td>

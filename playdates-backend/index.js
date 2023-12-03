@@ -3,11 +3,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const seedersScript = require('./seeders/login');
+// const seedersScript = require('./seeders/login');
 const cors = require('cors');
 const Users = require('./models/user');
 const Bookings = require('./models/booking')
-const { checkAvailability } = require('./controllers/availabilityController')
 const Admins = require('./models/admin');
 
 const app = express();
@@ -15,9 +14,9 @@ const app = express();
 // Session middleware
 const session = require('express-session');
 app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: true,
+secret: 'your-secret-key',
+resave: false,
+saveUninitialized: true,
 }));
 
 // Database connection
@@ -102,7 +101,7 @@ app.post('/adminlogin', async (req, res) => {
 });
 
 // Users page route
-app.get('/api/admin/users', async (req, res) => {
+app.get('/admin/users', async (req, res) => {
   try {
     const userData = await Users.find();
     res.json(userData);
@@ -113,12 +112,35 @@ app.get('/api/admin/users', async (req, res) => {
 });
 
 // Retrieve all bookings from the database 
-app.get('/api/admin/savedbookings', async (req, res) => {
+app.get('/admin/savedbookings', async (req, res) => {
   try {
     const bookingData = await Bookings.find();
     res.json(bookingData);
   } catch (error) {
     console.error('Error fetching booking data', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Delete a booking by ID
+app.delete('/savedbookings/:id', async (req, res) => {
+  try {
+    const bookingId = req.params.id;
+
+    // Check if the booking with the provided ID exists
+    const existingBooking = await Bookings.findById(bookingId);
+
+    if (!existingBooking) {
+      return res.status(404).json({ error: 'Booking not found' });
+    }
+
+    // Delete the booking
+    await Bookings.findByIdAndDelete(bookingId);
+
+    // Respond with a success message
+    res.status(200).json({ message: 'Booking deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting booking:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -193,56 +215,44 @@ app.post('/userlogin', async (req, res) => {
 });
 
 // Booking route
-app.post('/bookings', async (req, res) => {
-  try {
-    const { service, start_date, start_time, end_date, end_time, street, apartment, city, state, zipcode, notes } = req.body;
+app.route('/bookings')
+  .get(async (req, res) => {
+    try {
+      // Fetch all bookings from the database
+      const allBookings = await Bookings.find();
+      res.status(200).json(allBookings);
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      const { service, start_date, start_time, end_date, end_time, street, apartment, city, state, zipcode, notes } = req.body;
 
-    const newBooking = new Bookings({
-      service,
-      start_date,
-      start_time,
-      end_date,
-      end_time,
-      street,
-      apartment,
-      city,
-      state,
-      zipcode,
-      notes,
-    });
+      const newBooking = new Bookings({
+        service,
+        start_date,
+        start_time,
+        end_date,
+        end_time,
+        street,
+        apartment,
+        city,
+        state,
+        zipcode,
+        notes,
+      });
 
-    await newBooking.save();
+      await newBooking.save();
 
-    // Fetch all bookings from the database
-    const allBookings = await Bookings.find();
-
-    // Respond with the list of all bookings
-    res.status(201).json(allBookings);
-  } catch (error) {
-    console.error('Error creating booking:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-// Get bookings
-app.get('/bookings', async (req, res) => {
-  try {
-    // Fetch all bookings from the database
-    const allBookings = await Bookings.find();
-
-    // Extract the booked times from the bookings
-    const bookedTimes = allBookings.map((booking) => ({
-      start: new Date(`${booking.start_date}T${booking.start_time}`),
-      end: new Date(`${booking.end_date}T${booking.end_time}`),
-    }));
-
-    // Respond with both the list of all bookings and the booked times
-    res.status(200).json({ allBookings, bookedTimes });
-  } catch (error) {
-    console.error('Error fetching bookings:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+      // Respond with the newly created booking
+      res.status(201).json(newBooking);
+    } catch (error) {
+      console.error('Error creating booking:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
 
 
