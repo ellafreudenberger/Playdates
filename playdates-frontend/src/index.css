@@ -6,19 +6,40 @@
 
 /* Registration form styling */
 .registrationContainer {
+  background-color: rgb(247, 163, 124);
+  border-radius: 10px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 10%;
+  margin-top: 4%;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.registerTitle {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  font-size: 2rem;
 }
 
 /* User login form styling */
+.loginTitle {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  font-size: 2rem;
+}
+
 .loginContainer {
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   margin-top: 5%;
 }
 
@@ -29,9 +50,9 @@
 
 /* Admin login form stling */
 .adminLoginContainer {
-  background-color: rgb(250, 110, 50);
+  background-color: rgb(243, 245, 245);
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -39,6 +60,8 @@
   margin-left: 10%;
   margin-right: 10%;
   font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: large;
 }
 
 .adminLoginForm {
@@ -46,6 +69,15 @@
   flex-direction: column;
   align-items: flex-start;
   margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 7%;
+  font-weight: 700;
+}
+
+.adminLoginForm label,
+.adminLoginForm input,
+.adminLoginForm button {
+  margin-bottom: 10px;
 }
 
 .adminLoginButton {
@@ -53,6 +85,12 @@
   background-color: rgb(150, 212, 235);
   border: none;
   border-radius: 8px;
+}
+
+.adminLoginTitle {
+  font-size: larger;
+  margin-top: 3%;
+  margin-left: 7%;
 }
 
 /* Calendar */
@@ -81,8 +119,18 @@
   width: 100%;
 }
 
+.calTitle {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
 /* Home page styling */
 .homeMainTitle {
+  color: rgb(247, 149, 104);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -100,14 +148,22 @@
   margin-right: 10%
 }
 
+.homeServicesBorder {
+  background-color: rgb(243, 245, 245);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 5%
+}
+
 .homeServices {
-  font-size: 1.7rem;
-  margin-top: 15%;
+  font-size: 1.8rem;
+  margin-top: 6%;
   text-align: left;
   margin-left: 15%;
 }
 
 .homeTitle {
+  color: rgba(48, 178, 221, 0.976);
   font-size: 1.4rem;
   margin-top: 50px;
   text-align: left;
@@ -120,6 +176,7 @@
   text-align: left;
   margin-left: 15%;
   margin-right: 15%;
+  margin-bottom: 5%;
 }
 
 /* 404 page styling */
@@ -154,15 +211,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 10%;
+  margin-top: 3%;
   font-size: 2.5rem;
 }
 
 .adminTitle {
   font-size: 2rem;
-  margin-top: 12%;
   text-align: left;
   margin-left: 10%;
+  margin-top: 10%;
+  margin-bottom: 5%
 }
 
 .adminDescription {
@@ -182,7 +240,61 @@
 }
 
 .adminImageDescription {
-text-align: center;
-font-size: 1.2rem;
-margin-top: 5%
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 5%;
+  margin-bottom: 10%;
+}
+
+.adminBorder {
+  margin: 5%;
+  background-color: rgb(247, 163, 124);
+  padding: 50px;
+  border-radius: 10px;
+}
+
+/* Bookings Table */
+.bookingsContainer {
+  margin: 20px;
+}
+
+.bookingsHeader {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  margin-top: 60px;
+}
+
+.dateLabel {
+  margin-right: 10px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.dateLabel select {
+  font-size: 1rem;
+  padding: 5px;
+}
+
+.bookingsTable {
+  margin-top: 10px;
+  width: 90%;
+  border-collapse: collapse;
+  font-size: small;
+}
+
+/* Clients Table */
+.clientsContainer {
+  margin: 20px;
+}
+
+.clientsHeader {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.clientsTable {
+  margin-top: 10px;
+  width: 90%;
+  border-collapse: collapse;
+  font-size: small;
 }

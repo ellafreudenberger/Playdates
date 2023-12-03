@@ -47,6 +47,7 @@ const AdminLoginForm = () => {
 
   return (
     <div className="adminLoginContainer">
+     <h2 className="adminLoginTitle">Dog Sitters Login</h2>
       <form onSubmit={handleSubmit} className='adminLoginForm'>
         <label htmlFor="username">Username</label>
         <input 
@@ -69,12 +70,12 @@ const AdminLoginForm = () => {
           required
           autoComplete="off"
         />
-        
+
         <button type="submit" className='adminLoginButton'>
           Login
         </button>
 
-        {loginError && <p className="error-message">Sorry, you are not permitted here!</p>}
+        {loginError && <p className="error-message">Sorry, you are not permitted!</p>}
       </form>
     </div>
   );

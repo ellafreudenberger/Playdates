@@ -204,6 +204,7 @@ function BookingsCalendar() {
   
   return (
     <div>
+     <h1 className="calTitle">Click on the day you would like to set up a Playdate with us!</h1>
       <Calendar className='calendar'
         localizer={localizer}
         startAccessor="start"

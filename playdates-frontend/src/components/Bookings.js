@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "../index.css";
 
 const tableHeaderStyle = {
   border: '1px solid #ddd',
@@ -52,9 +53,9 @@ const Bookings = () => {
 
     return (
       <div>
-        <div>
-          <h1>Bookings</h1>
-          <label htmlFor="startDate"></label>
+        <div className="bookingsContainer">
+          <h1 className="bookingsHeader">Bookings</h1>
+          <label htmlFor="startDate" className="dateLabel">
           <select id="startDate" onChange={handleStartDateChange} value={selectedStartDate || ''}>
             <option value="">All Dates</option>
             {uniqueStartDates.map((startDate) => (
@@ -63,7 +64,8 @@ const Bookings = () => {
               </option>
             ))}
           </select>
-          <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+          </label>
+          <table className="bookingsTable" style={{ borderCollapse: 'collapse', width: '100%' }}>
             <thead>
               <tr>
                 <th style={tableHeaderStyle}>Service</th>

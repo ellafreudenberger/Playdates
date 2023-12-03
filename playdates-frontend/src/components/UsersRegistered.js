@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "../index.css";
 
 const Users = () => {
   const [userData, setUserData] = useState([]);
@@ -23,9 +24,9 @@ const Users = () => {
 
   return (
     <div>
-      <div>
-        <h1>Clients</h1>
-        <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+      <div className="clientsContainer">
+        <h1 className="clientsHeader">Clients</h1>
+        <table className="clientsTable"style={{ borderCollapse: 'collapse', width: '100%' }}>
           <thead>
             <tr>
               <th style={tableHeaderStyle}>First Name</th>
