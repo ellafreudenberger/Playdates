@@ -128,6 +128,33 @@
   margin-bottom: 5%;
 }
 
+
+.thanksBooking {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.submitPayment {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.pricing {
+  color: rgb(247, 149, 104);
+  font-size: 1.2rem;
+  margin-top: 10%;
+  margin-left: 27%;
+  margin-right: 20%;
+}
+
 /* Home page styling */
 .homeMainTitle {
   color: rgb(247, 149, 104);

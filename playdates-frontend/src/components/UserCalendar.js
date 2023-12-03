@@ -380,10 +380,10 @@ function BookingsCalendar() {
         ]}
       >
         <img src="/images/venmo.jpeg" alt="Venmo QR Code" style={{ maxWidth: '100%' }} />
-        <h1 classname="thanksBooking">Thank you for booking with us!</h1>
-        <h2 classname="submitPayment">Please submit payment to our Venmo.</h2>
-        <h3 classname="Rates">Rates:
-        <li> 
+        <h1 className="thanksBooking">Thank you for booking with us!</h1>
+        <h2 className="submitPayment">Please submit payment to our Venmo.</h2>
+        <h3 className="rates">
+        <li className="pricing"> 
         <ul>Walk
           <ul>30 Minutes - $15</ul>
           <ul>1 Hour - $30</ul>
