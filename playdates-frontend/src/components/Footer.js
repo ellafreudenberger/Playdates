@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Footer = () => {
   const contactContainerStyle = {
     backgroundColor: '#333333',
@@ -15,14 +13,22 @@ const Footer = () => {
   };
 
   const contactInfoStyle = {
-    display: 'flex', // Arrange horizontally
+    display: 'flex',
     justifyContent: 'space-around', 
   };
 
   const h3info = {
     color: '#555555',
-    marginTop: '40px',
     fontSize: '20px',
+    marginTop: '18px',
+    padding: '10px',
+    width: '99%',
+  };
+
+  // Style for making text bold and slightly darker grey
+  const boldStyle = {
+    fontWeight: 'bold',
+    color: '#444444',  // You can adjust the color here
   };
 
   return (
@@ -38,8 +44,8 @@ const Footer = () => {
           </div>
           <div>
             <h2>Phone</h2>
-            <h3 style={h3info}>Lily: 707.673.7328</h3>
-            <h3 style={h3info}>Ella: 415.271.6620</h3>
+            <h3 style={h3info}><span style={boldStyle}>Lily</span> 707.673.7328</h3>
+            <h3 style={h3info}><span style={boldStyle}>Ella</span> 415.271.6620</h3>
           </div>
           <div>
             <h2>Address</h2>

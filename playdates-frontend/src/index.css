@@ -29,11 +29,15 @@
 
 /* Admin login form stling */
 .adminLoginContainer {
+  background-color: rgb(250, 110, 50);
+  padding: 20px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 5%;
-  margin-left: 5%;
+  margin-top: 10%;
+  margin-left: 10%;
+  margin-right: 10%;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -52,7 +56,6 @@
 }
 
 /* Calendar */
-
 .calendar {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -79,25 +82,47 @@
 }
 
 /* Home page styling */
-
 .homeMainTitle {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 10%;
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 
 .homeDescription {
-  font-size: 1.2rem;
-  line-height: 2rem;
+  font-size: 1.5rem;
+  line-height: 3rem;
   text-align: center; 
-  margin: 10%;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%
+}
+
+.homeServices {
+  font-size: 1.7rem;
+  margin-top: 15%;
+  text-align: left;
+  margin-left: 15%;
+}
+
+.homeTitle {
+  font-size: 1.4rem;
+  margin-top: 50px;
+  text-align: left;
+  margin-left: 15%;
+}
+
+.homeInfo {
+  font-size: 1rem;
+  margin-top: 20px;
+  text-align: left;
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
 /* 404 page styling */
-
 .errorPageTitle {
   display: flex;
   flex-direction: column;
@@ -115,11 +140,49 @@
 }
 
 /* Admin page */
-
 .noRegisteredClients {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 5%;
+}
+
+/* Dog Sitters page */
+.adminMainTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10%;
+  font-size: 2.5rem;
+}
+
+.adminTitle {
+  font-size: 2rem;
+  margin-top: 12%;
+  text-align: left;
+  margin-left: 10%;
+}
+
+.adminDescription {
+  font-size: 1.3rem;
+  line-height: 3rem;
+  text-align: left; 
+  margin-top: 4%;
+  margin-left: 10%;
+  margin-right: 10%
+}
+
+.adminImage {
+  margin-left: 8%;
+  margin-right: 4%;
+  margin-top: 8%;
+  align-items: center;
+}
+
+.adminImageDescription {
+text-align: center;
+font-size: 1.2rem;
+margin-top: 5%
 }
