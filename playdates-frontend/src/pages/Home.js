@@ -15,7 +15,7 @@ export const Home = () => {
         <h4 className="homeTitle">Dog Sitting</h4>
         <h5 className="homeInfo">When you're away, you can trust us to be responsible in your home. We are able to maintain your dog's routine and continue to give them the attention and supervision they receive from you.</h5>
         <h4 className ="homeTitle">Boarding Services</h4>
-        <h5 className="homeInfo">We offer a safe retreat where your dog will enjoy cozy accommodations, regular exercise, and companionship in our welcoming home.</h5>
+        <h5 className="homeInfo">We offer a safe retreat where your dog will enjoy cozy accommodations, regular exercise and companionship in our welcoming home.</h5>
     </div>
     </div>
     );
