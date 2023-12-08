@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 export const Home = () => {
     return (
         <div> 
+    <h1 className="companyTitle">Playdates</h1>
     <h1 className="homeMainTitle">Your Neighborhood Dog Sitters!</h1> 
     
-    <h2 className="homeDescription"> Set your dog up on fun playdates with us! We offer services for local walks, sittings at your home and boardings at ours in the heart of the Upper East Side. We are dedicated to providing exceptional care and ensuring your pet's well-being and happiness. <Link to="/register">Register</Link> to book our services now, or if you would like to meet us before, contact us at our information below to schedule a consultation! </h2>
+    <h2 className="homeDescription"> Set your dog up on fun&nbsp;<span className="playdatesText">Playdates</span>&nbsp;with us! We offer services for local walks, sittings at your home and boardings at ours in the heart of the Upper East Side. We are dedicated to providing exceptional care and ensuring your pet's well-being and happiness. <Link to="/register">Register</Link> to book our services now, or if you would like to meet us before, contact us at our information below to schedule a consultation! </h2>
     <div className="homeServicesBorder">
     <h3 className="homeServices">Our Services</h3>
         <h4 className="homeTitle">Dog Walking</h4>

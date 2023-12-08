@@ -1,3 +1,4 @@
+//https://www.npmjs.com/package/react-alice-carousel
 import React from 'react';
 import '../index.css';
 import image1 from '../carousel-images/Dog1.jpg';
