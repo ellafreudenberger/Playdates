@@ -69,7 +69,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 5%;
-  margin-top: 5%;
+  margin-top: 3%;
   margin-left: 7%;
   font-weight: 700;
 }
@@ -81,7 +81,7 @@
 }
 
 .adminLoginButton {
-  margin-top: 5%;
+  margin-top: 10%;
   background-color: rgb(150, 212, 235);
   border: none;
   border-radius: 8px;
@@ -187,14 +187,14 @@
   text-align: center; 
   margin-top: 5%;
   margin-left: 10%;
-  margin-right: 10%
+  margin-right: 10%;
 }
 
 .homeServicesBorder {
   background-color: rgb(243, 245, 245);
   padding: 20px;
   border-radius: 10px;
-  margin: 5%
+  margin: 5%;
 }
 
 .homeServices {
@@ -262,7 +262,7 @@
   text-align: left;
   margin-left: 10%;
   margin-top: 10%;
-  margin-bottom: 5%
+  margin-bottom: 5%;
 }
 
 .adminDescription {
@@ -271,7 +271,7 @@
   text-align: left; 
   margin-top: 4%;
   margin-left: 10%;
-  margin-right: 10%
+  margin-right: 10%;
 }
 
 .adminImage {
