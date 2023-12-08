@@ -142,7 +142,7 @@
 }
 
 .submitPayment {
-  color: rgb(247, 149, 104);
+  text-decoration: underline;
   font-size: 1.5rem;
   display: flex;
   align-items: center;
@@ -275,7 +275,7 @@
 }
 
 .adminImage {
-  margin-left: 8%;
+  margin-left: 7.5%;
   margin-right: 4%;
   margin-top: 8%;
   align-items: center;
@@ -328,7 +328,7 @@
   background: black;
   color: white;
   border: none;
-  margin: 1%;
+  margin: 6%;
 }
 
 /* Clients table */
@@ -363,11 +363,9 @@
 }
 
 .registerTitle {
-  color: rgb(43, 109, 253);
   text-decoration: underline;
 }
 
 .clickText {
-  color: rgb(43, 109, 253);
   text-decoration: underline;
 }
