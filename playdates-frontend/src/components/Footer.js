@@ -6,7 +6,7 @@ const Footer = () => {
     padding: '30px',
     textAlign: 'center',
     width: '100%',
-    marginTop: '200px',
+    marginTop: '100px',
   };
 
   const contactStyle = {
@@ -62,6 +62,7 @@ const Footer = () => {
 const footerStyle = {
   textAlign: 'center',
   width: '100%',
+
 };
 
 const contentContainerStyle = {

@@ -31,6 +31,7 @@
   display: flex;
   justify-content: center;
   margin-top: 5%;
+  margin-bottom: 30px;
   font-size: 2rem;
 }
 
@@ -40,24 +41,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: left;
-  margin-top: 5%;
 }
 
 .loginButton {
   margin-top: 10%;
-}
-
-.imageContainer {
-  display: flex;
-}
-
-.loginImage,
-.nextLoginImage {
-  margin-top: 10%;
-  margin-left: 10%;
-  display: flex;
-  height: 35%;
-  width: 35%;
 }
 
 
@@ -297,7 +284,7 @@
   border-radius: 10px;
 }
 
-/* Bookings Table */
+/* Bookings table */
 .bookingsContainer {
   margin: 20px;
 }
@@ -333,7 +320,7 @@
   margin: 1%;
 }
 
-/* Clients Table */
+/* Clients table */
 .clientsContainer {
   margin: 20px;
 }
@@ -348,4 +335,13 @@
   width: 90%;
   border-collapse: collapse;
   font-size: small;
+}
+
+/* Slideshow */
+.slideshow-image {
+  width: 90%;
+  height: 300px; 
+  object-fit: cover;
+  margin-top: 35%;
+  margin-left: 5%;
 }
