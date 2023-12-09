@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../index.css";
-import { format } from 'date-fns';
+import { parse, format } from 'date-fns';
+import { Modal } from 'antd';
 
 
 const tableHeaderStyle = {
@@ -17,6 +18,21 @@ const tableCellStyle = {
   border: '1px solid #ddd',
   padding: '8px',
 };
+
+// Time formating
+const formatTime = (time) => {
+  try {
+    const parsedTime = parse(time, 'HH:mm', new Date());
+    console.log('Parsed Time:', parsedTime);
+    const formattedTime = format(parsedTime, 'hh:mm a');
+    console.log('Formatted Time:', formattedTime);
+    return formattedTime;
+  } catch (error) {
+    console.error('Error formatting time:', error);
+    return time; // Return the original time if there's an error
+  }
+};
+
 
 const Bookings = () => {
   const [bookingData, setBookingData] = useState([]);
@@ -71,48 +87,36 @@ const deleteBooking = async (bookingId) => {
   }
 };
 
-
-const generateTimeOptions = (bookedTimes, selectedBookingTime) => {
+const generateTimeOptions = (selectedDate, selectedBookingTime) => {
   const options = [];
 
-  // Check if bookedTimes is defined
-  if (bookedTimes) {
-    for (let i = 0; i < 24 * 2; i++) {
-      const hours = Math.floor(i / 2);
-      const minutes = i % 2 === 0 ? '00' : '30';
-      const formattedTime = format(new Date(0, 0, 0, hours, minutes), 'h:mm a');
+  for (let i = 0; i < 24 * 2; i++) {
+    const hours = Math.floor(i / 2);
+    const minutes = i % 2 === 0 ? '00' : '30';
 
-      // Check if the current time option is booked
-      const isBooked = bookedTimes.some((bookingTime) => {
-        const bookingStartTime = format(bookingTime.start, 'h:mm a');
-        const bookingEndTime = format(bookingTime.end, 'h:mm a');
+    // Manually construct the formatted time
+    const formattedHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+    const amPm = hours < 12 ? 'AM' : 'PM';
+    const formattedTime = `${formattedHours}:${minutes} ${amPm}`;
 
-        // Check if the formatted time is within the booking time range
-        return (
-          formattedTime >= bookingStartTime &&
-          formattedTime < bookingEndTime &&
-          formattedTime !== selectedBookingTime
-        );
-      });
-
-      // Add the time option to the list only if it's not booked
-      if (!isBooked) {
-        options.push(
-          <option key={formattedTime} value={formattedTime}>
-            {formattedTime}
-          </option>
-        );
-      }
-    }
+    // Use the same formatted time for both display and value
+    options.push(
+      <option key={formattedTime} value={formattedTime} selected={formattedTime === selectedBookingTime}>
+        {formattedTime}
+      </option>
+    );
   }
 
   return options;
 };
 
 
-//editing bookings
+
+
+// Edit bookings
+const [isModalVisible, setIsModalVisible] = useState(false);
 const [editingBookingId, setEditingBookingId] = useState(null);
-  const [editedBooking, setEditedBooking] = useState({
+const [editedBooking, setEditedBooking] = useState({
     service: '',
     start_date: '',
     start_time: '',
@@ -126,24 +130,37 @@ const [editingBookingId, setEditingBookingId] = useState(null);
     notes: '',
   });
 
-  const handleEditClick = (bookingId) => {
-    setEditingBookingId(bookingId);
-    const bookingToEdit = bookingData.find((booking) => booking._id === bookingId);
-    
-    setEditedBooking({
-      service: bookingToEdit.service,
-      start_date: bookingToEdit.start_date,
-      start_time: bookingToEdit.start_time,
-      end_date: bookingToEdit.end_date,
-      end_time: bookingToEdit.end_time,
-      street: bookingToEdit.street,
-      apartment: bookingToEdit.apartment,
-      city: bookingToEdit.city,
-      state: bookingToEdit.state,
-      zipcode: bookingToEdit.zipcode,
-      notes: bookingToEdit.notes,
-    });
+  const showModal = () => {
+    setIsModalVisible(true);
   };
+  
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  
+ 
+
+const handleEditClick = (bookingId) => {
+  setEditingBookingId(bookingId);
+  const bookingToEdit = bookingData.find((booking) => booking._id === bookingId);
+  
+  setEditedBooking({
+    service: bookingToEdit.service,
+    start_date: format(new Date(bookingToEdit.start_date), 'yyyy-MM-dd'),
+    start_time: bookingToEdit.start_time,
+    end_date: format(new Date(bookingToEdit.end_date), 'yyyy-MM-dd'),
+    end_time: bookingToEdit.end_time,
+    street: bookingToEdit.street,
+    apartment: bookingToEdit.apartment,
+    city: bookingToEdit.city,
+    state: bookingToEdit.state,
+    zipcode: bookingToEdit.zipcode,
+    notes: bookingToEdit.notes,
+  });
+};
+
+
+  
 
   const handleEditFormChange = (e) => {
     const { name, value } = e.target;
@@ -155,14 +172,18 @@ const [editingBookingId, setEditingBookingId] = useState(null);
 
   const handleEditFormSubmit = async () => {
     try {
+      console.log('Edited Booking:', editedBooking);
+  
       const response = await fetch(`http://localhost:3000/savedbookings/${editingBookingId}`, {
-        method: 'PUT', // Use PUT method for updating
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(editedBooking),
       });
-
+  
+      console.log('Response:', response);
+  
       if (response.ok) {
         // Update the local state with the edited booking
         setBookingData((prevData) =>
@@ -170,7 +191,7 @@ const [editingBookingId, setEditingBookingId] = useState(null);
             booking._id === editingBookingId ? { ...booking, ...editedBooking } : booking
           )
         );
-
+  
         // Reset the editing state
         setEditingBookingId(null);
         setEditedBooking({
@@ -186,6 +207,8 @@ const [editingBookingId, setEditingBookingId] = useState(null);
           zipcode: '',
           notes: '',
         });
+      // Close the modal
+      setIsModalVisible(false);
       } else {
         console.error('Error updating booking');
       }
@@ -193,7 +216,7 @@ const [editingBookingId, setEditingBookingId] = useState(null);
       console.error('Error updating booking:', error);
     }
   };
-
+  
   return (
     <div>
       <div className="bookingsContainer">
@@ -222,7 +245,8 @@ const [editingBookingId, setEditingBookingId] = useState(null);
               <th style={tableHeaderStyle}>State</th>
               <th style={tableHeaderStyle}>Zipcode</th>
               <th style={tableHeaderStyle}>Notes</th>
-              <th style={tableHeaderStyle}>Actions</th>
+              <th style={tableHeaderStyle} className="bookingsColumnTitle">Update</th>
+
             </tr>
           </thead>
           <tbody>
@@ -230,9 +254,12 @@ const [editingBookingId, setEditingBookingId] = useState(null);
               <tr key={booking._id} style={tableRowStyle}>
                 <td style={tableCellStyle}>{booking.service}</td>
                 <td style={tableCellStyle}>{new Date(booking.start_date).toLocaleDateString()}</td>
-                <td style={tableCellStyle}>{booking.start_time}</td>
+                <td style={tableCellStyle}>{formatTime(booking.start_time)}
+                {console.log('Booking Time:', booking.start_time)}
+                {console.log('Formatted Time:', formatTime(booking.start_time))}
+                </td> {/*to edit time format*/}
                 <td style={tableCellStyle}>{new Date(booking.end_date).toLocaleDateString()}</td>
-                <td style={tableCellStyle}>{booking.end_time}</td>
+                <td style={tableCellStyle}>{formatTime(booking.end_time)}</td>{/*to edit time format*/}
                 <td style={tableCellStyle}>{booking.street}</td>
                 <td style={tableCellStyle}>{booking.apartment}</td>
                 <td style={tableCellStyle}>{booking.city}</td>
@@ -240,18 +267,26 @@ const [editingBookingId, setEditingBookingId] = useState(null);
                 <td style={tableCellStyle}>{booking.zipcode}</td>
                 <td style={tableCellStyle}>{booking.notes}</td>
                 <td style={tableCellStyle}>
-                  <button className='editButton' onClick={() => handleEditClick(booking._id)}>Edit</button>
-                  <button className='deleteButton' onClick={() => deleteBooking(booking._id)}>Delete</button>
+                <button className='editButton hoverEffectd' onClick={() => { handleEditClick(booking._id); showModal(); }}>Edit</button>
+                <button className='deleteButton hoverEffectc' onClick={() => deleteBooking(booking._id)}>Delete</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         {/* Edit Form */}
-        {editingBookingId && (
-          <div className="editForm">
-            <h2>Update Booking</h2>
-            <label htmlFor="editedService">
+        <Modal
+   className='bookingForm'
+  open={isModalVisible}
+  onOk={handleEditFormSubmit} // handle "Save" action
+  onCancel={() => {
+    setEditingBookingId(null);
+    handleCancel(); // handle "Cancel" action
+  }}
+  okText="Save"
+  cancelText="Cancel"
+>
+            <label className="formLabel" htmlFor="editedService">
               Service
               <select
                 id="editedService"
@@ -266,65 +301,59 @@ const [editingBookingId, setEditingBookingId] = useState(null);
             </label>
             <br />
   
-            <label htmlFor="editedStartDate">
-              Start Date
-              <input
-                id="editedStartDate"
-                type="date"
-                name="start_date"
-                value={editedBooking.start_date}
-                onChange={handleEditFormChange}
-              />
-            </label>
-            <br />
+            <label className="formLabel" htmlFor="editedStartDate">
+  Start Date
+  <input
+    id="editedStartDate"
+    type="date"
+    name="start_date"
+    value={editedBooking.start_date || ''}
+    onChange={handleEditFormChange}
+  />
+</label>
+<br />
+
+
+            <label className="formLabel" htmlFor="editedStartTime">
+  Start Time
+  <select
+    id="editedStartTime"
+    name="start_time"
+    value={editedBooking.start_time}
+    onChange={handleEditFormChange}
+  >
+    {generateTimeOptions(editedBooking.start_date, editedBooking.start_time)}
+  </select>
+</label>
+<br />
+
   
-            <label htmlFor="editedStartTime">
-              Start Time
-              <select
-                id="editedStartTime"
-                name="start_time"
-                value={editedBooking.start_time}
-                onChange={handleEditFormChange}
-              >
-                {generateTimeOptions().map((timeOption) => (
-                  <option key={timeOption} value={timeOption}>
-                    {timeOption}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <br />
+<label className="formLabel" htmlFor="editedEndDate">
+  End Date
+  <input
+    id="editedEndDate"
+    type="date"
+    name="end_date"
+    value={editedBooking.end_date || ''}
+    onChange={handleEditFormChange}
+  />
+</label>
+<br />
+
+            <label className="formLabel" htmlFor="editedEndTime">
+  End Time
+  <select
+    id="editedEndTime"
+    name="end_time"
+    value={editedBooking.end_time}
+    onChange={handleEditFormChange}
+  >
+    {generateTimeOptions(editedBooking.end_date, editedBooking.end_time)}
+  </select>
+</label>
+<br />
   
-            <label htmlFor="editedEndDate">
-              End Date
-              <input
-                id="editedEndDate"
-                type="date"
-                name="end_date"
-                value={editedBooking.end_date}
-                onChange={handleEditFormChange}
-              />
-            </label>
-            <br />
-  
-            <label htmlFor="editedEndTime">
-              End Time
-              <select
-                id="editedEndTime"
-                name="end_time"
-                value={editedBooking.end_time}
-                onChange={handleEditFormChange}
-              >
-                {generateTimeOptions().map((timeOption) => (
-                  <option key={timeOption} value={timeOption}>
-                    {timeOption}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <br />
-  
-            <label htmlFor="editedStreet">
+            <label className="formLabel" htmlFor="editedStreet">
               Street
               <input
                 id="editedStreet"
@@ -336,7 +365,7 @@ const [editingBookingId, setEditingBookingId] = useState(null);
             </label>
             <br />
   
-            <label htmlFor="editedApartment">
+            <label className="formLabel" htmlFor="editedApartment">
               Apartment
               <input
                 id="editedApartment"
@@ -348,7 +377,7 @@ const [editingBookingId, setEditingBookingId] = useState(null);
             </label>
             <br />
   
-            <label htmlFor="editedCity">
+            <label className="formLabel" htmlFor="editedCity">
               City
               <input
                 id="editedCity"
@@ -360,7 +389,7 @@ const [editingBookingId, setEditingBookingId] = useState(null);
             </label>
             <br />
   
-            <label htmlFor="editedState">
+            <label className="formLabel" htmlFor="editedState">
               State
               <input
                 id="editedState"
@@ -372,7 +401,7 @@ const [editingBookingId, setEditingBookingId] = useState(null);
             </label>
             <br />
   
-            <label htmlFor="editedZipcode">
+            <label className="formLabel" htmlFor="editedZipcode">
               Zipcode
               <input
                 id="editedZipcode"
@@ -384,7 +413,7 @@ const [editingBookingId, setEditingBookingId] = useState(null);
             </label>
             <br />
   
-            <label htmlFor="editedNotes">
+            <label className="formLabel" htmlFor="editedNotes">
               Notes for us!
               <input
                 id="editedNotes"
@@ -393,15 +422,11 @@ const [editingBookingId, setEditingBookingId] = useState(null);
                 onChange={handleEditFormChange}
               />
             </label>
-            <br />
-  
-            <button onClick={() => handleEditFormSubmit()}>Save</button>
-            <button onClick={() => setEditingBookingId(null)}>Cancel</button>
-          </div>
-        )}
-      </div>
+            <br />        
+      </Modal>
     </div>
-  );  
+  </div>
+);
   
   }
 

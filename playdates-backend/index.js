@@ -254,6 +254,30 @@ app.route('/bookings')
     }
   });
 
+// Update a booking by ID
+app.put('/savedbookings/:id', async (req, res) => {
+  try {
+    const bookingId = req.params.id;
+    const updatedBookingData = req.body;
+
+    // Check if the booking with the provided ID exists
+    const existingBooking = await Bookings.findById(bookingId);
+
+    if (!existingBooking) {
+      return res.status(404).json({ error: 'Booking not found' });
+    }
+
+    // Update the booking
+    await Bookings.findByIdAndUpdate(bookingId, updatedBookingData);
+
+    // Respond with a success message
+    res.status(200).json({ message: 'Booking updated successfully' });
+  } catch (error) {
+    console.error('Error updating booking:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 // Start server

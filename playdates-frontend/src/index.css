@@ -19,13 +19,6 @@
   margin-right: auto;
 }
 
-.registerTitle {
-  display: flex;
-  justify-content: center;
-  margin-top: 5%;
-  font-size: 2rem;
-}
-
 /* User login form styling */
 .loginTitle {
   display: flex;
@@ -129,7 +122,6 @@
   margin-top: 5%;
   margin-bottom: 5%;
 }
-
 
 .thanksBooking {
   text-align: center;
@@ -324,12 +316,70 @@
   font-size: small;
 }
 
+.bookingsTable th, .bookingsTable td {
+  width: auto; 
+}
+
+.bookingsContainer {
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .bookingsTable th, .bookingsTable td {
+    width: 90%; 
+  }
+}
+
+
+
 .deleteButton {
   background: black;
   color: white;
   border: none;
-  margin: 6%;
+  margin: 5%;
 }
+
+.editButton {
+  background: black;
+  color: white;
+  border: none;
+  margin: 5%;
+}
+
+.saveButton {
+  background: black;
+  color: white;
+  border: none;
+  margin: 40px;
+}
+
+.cancelButton {
+  background: black;
+  color: white;
+  border: none;
+}
+
+.hoverEffectc:hover {
+  color: #B30000;
+}
+
+.hoverEffectd:hover {
+  color:rgb(247, 163, 124);
+}
+
+.bookingsColumnTitle {
+  text-decoration: underline;
+  color:rgb(101, 6, 226);
+}
+
+
+/* Bookings modal */
+
+.formLabel {
+  width: 90%;
+  margin: 3%;
+}
+
 
 /* Clients table */
 .clientsContainer {
@@ -364,8 +414,10 @@
 
 .registerTitle {
   text-decoration: underline;
+  color: rgb(101, 6, 226);
 }
 
 .clickText {
   text-decoration: underline;
+  color: rgb(101, 6, 226);
 }

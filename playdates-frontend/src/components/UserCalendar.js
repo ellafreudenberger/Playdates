@@ -82,37 +82,38 @@ function BookingsCalendar() {
     // Include fetchBookedTimes in the dependency array
   }, [fetchBookedTimes]);
 
-  const generateTimeOptions = () => {
+  const generateTimeOptions = (selectedBookingTime) => {
     const options = [];
-
+  
     for (let i = 0; i < 24 * 2; i++) {
       const hours = Math.floor(i / 2);
       const minutes = i % 2 === 0 ? '00' : '30';
       const formattedTime = format(new Date(0, 0, 0, hours, minutes), 'h:mm a');
-
+  
       // Check if the current time option is booked
       const isBooked = bookedTimes.some((bookingTime) => {
         const bookingStartTime = format(bookingTime.start, 'h:mm a');
         const bookingEndTime = format(bookingTime.end, 'h:mm a');
-
+  
         // Check if the formatted time is within the booking time range
         return (
-          formattedTime >= bookingStartTime && formattedTime < bookingEndTime
+          formattedTime >= bookingStartTime &&
+          formattedTime < bookingEndTime &&
+          formattedTime !== selectedBookingTime
         );
       });
-
+  
       // Add the time option to the list only if it's not booked
-      if (!isBooked) {
-        options.push(
-          <option key={formattedTime} value={formattedTime}>
-            {formattedTime}
-          </option>
-        );
-      }
+      options.push(
+        <option key={formattedTime} value={formattedTime} disabled={isBooked}>
+          {formattedTime}
+        </option>
+      );
     }
-
+  
     return options;
   };
+  
 
 
   // Set date in form to the date clicked on

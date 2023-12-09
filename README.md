@@ -1,6 +1,6 @@
 # Playdates
 
-Playdates is an application for dog walking, sitting, and boarding on the Upper East Side of New York City. Users can schedule playdates for their dogs with Ella and Lily, their new best friends.
+Playdates is an application for dog walking, sitting and boarding on the Upper East Side of New York City. Users can schedule playdates for their dogs with Ella and Lily, their new best friends.
 
 ## Built By
 Ella Freudenberger
@@ -33,6 +33,7 @@ Ella Freudenberger
 ### Design Packages
 - React Big Calendar
 - Ant Design
+- Alice Carousel
 
 ## Features
 
@@ -66,7 +67,7 @@ Ella Freudenberger
 
 ### Update (U):
 
-### Edit Bookings (Coming Soon)
+### Edit Bookings 
 -Endpoint: `/admin/savedbookings`
 -Description: Updates bookings and edits their information. 
 

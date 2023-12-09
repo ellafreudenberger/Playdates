@@ -5,7 +5,6 @@ import "../index.css"
 const Register = () => {
     return (
     <div className="registerBackground"> 
-    <h1 className="registerTitle">Register Here</h1>
     <RegistrationForm />
     </div>
     );
