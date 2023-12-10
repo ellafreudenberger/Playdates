@@ -23,8 +23,10 @@
   display: flex;
   justify-content: center;
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 400;
   color: #8B0000;
+  margin-top: 15%;
+  margin-bottom: 3%;
 }
 
 .loginContainer {
@@ -37,7 +39,6 @@
   margin-top: 0%;
   color: black;
   padding: 20px;
-  margin-top: 90px;
 }
 
 .loginButton {
@@ -53,7 +54,7 @@
   flex-direction: column;
   align-items: center; /* Center the content horizontally */
   justify-content: center; /* Center the content vertically */
-  min-height: 50vh; /* Set a minimum height of 100% of the viewport height */
+  min-height: 50vh; 
   min-width: 50vh;
   font-family: sans-serif;
   font-weight: 800;
@@ -287,7 +288,7 @@ button {
   margin-left: 10%;
   margin-top: 10%;
   margin-bottom: 5%;
-  color:#730101;
+  color:#963131;
   text-shadow: 2px 2px 1px #410101;
 }
 

@@ -5,12 +5,14 @@ import "../index.css";
 
 export const Login = () => {
   return (
-    <div className="loginContainer">
+    <div>
       <h1 className="loginTitle">
         Book Playdates with us!
       </h1>
+      <div className="loginContainer">
       <LoginForm />
       <Slideshow />
+      </div>
     </div>
   );
 };
