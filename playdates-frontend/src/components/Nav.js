@@ -7,7 +7,7 @@ import Nav from 'react-bootstrap/Nav';
 const PlaydatesNav = () => {
     return(
         <>
-        <Navbar bg="dark" data-bs-theme="dark">
+        <Navbar bg="black" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="#home">Playdates</Navbar.Brand>
           <Nav className="me-auto">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../index.css'
+import '../index.css';
+import FancyButton from './buttons/fancy-button';
 
 const AdminLoginForm = () => {
   const navigate = useNavigate();
@@ -17,9 +18,7 @@ const AdminLoginForm = () => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async () => {
     try {
       // Send the login data to the backend for validation
       const response = await fetch('http://localhost:3000/adminlogin', {
@@ -47,10 +46,11 @@ const AdminLoginForm = () => {
 
   return (
     <div className="adminLoginContainer">
-     <h2 className="adminLoginTitle">Login for Dog Sitters</h2>
-      <form onSubmit={handleSubmit} className='adminLoginForm'>
+      <h2 className="adminLoginTitle">Dog Sitters</h2>
+      <form onSubmit={handleSubmit} className="adminLoginForm">
         <label htmlFor="username">Username</label>
-        <input 
+        <input
+           className="adminInput"
           type="text"
           id="username"
           name="username"
@@ -61,7 +61,8 @@ const AdminLoginForm = () => {
         />
 
         <label htmlFor="password">Password</label>
-        <input
+        <input 
+          className="adminInput"
           type="password"
           id="password"
           name="password"
@@ -71,10 +72,7 @@ const AdminLoginForm = () => {
           autoComplete="off"
         />
 
-        <button type="submit" className='adminLoginButton'>
-          Login
-        </button>
-
+        <FancyButton onClick={handleSubmit} />
         {loginError && <p className="error-message">Sorry, you are not permitted!</p>}
       </form>
     </div>

@@ -1,12 +1,12 @@
 /* Error messages */
 .error-message {
   margin-top: 5%;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
 }
 
 /* Registration form styling */
 .registrationContainer {
-  background-color: rgb(247, 163, 124);
+  background-color:rgb(254, 194, 194);
   border-radius: 10px;
   padding: 40px;
   display: flex;
@@ -43,27 +43,23 @@
 
 /* Admin login form stling */
 .adminLoginContainer {
-  background-color: rgb(243, 245, 245);
+  background-color: rgb(20, 20, 20);
   padding: 20px;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-top: 10%;
-  margin-left: 10%;
-  margin-right: 10%;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 500;
-  font-size: large;
+  align-items: center; /* Center the content horizontally */
+  justify-content: center; /* Center the content vertically */
+  min-height: 50vh; /* Set a minimum height of 100% of the viewport height */
+  min-width: 50vh;
+  font-family: sans-serif;
+  font-weight: 800;
+  font-size: xx-large; 
 }
 
 .adminLoginForm {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 5%;
-  margin-top: 3%;
-  margin-left: 7%;
+  align-items: center; 
   font-weight: 700;
 }
 
@@ -71,21 +67,42 @@
 .adminLoginForm input,
 .adminLoginForm button {
   margin-bottom: 10px;
-}
-
-.adminLoginButton {
-  margin-top: 10%;
-  background-color: rgb(150, 212, 235);
-  border: none;
-  border-radius: 8px;
+  font-size: large; 
+  color:white;
 }
 
 .adminLoginTitle {
-  font-size: larger;
-  margin-top: 3%;
-  margin-left: 7%;
+  font-size: 40px;
   font-weight: 800;
+  margin-bottom: 30px;
+  color: white;
+  text-shadow: 2px 2px 1px #8B0000; /* Dark Red */
 }
+
+#username,
+#password {
+  background-color: white !important;
+  border:antiquewhite 4px;
+  color: black !important;
+}
+
+#username,
+#password,
+button {
+ outline: none;
+}
+
+.adminInput {
+  margin: 5px;
+}
+
+
+.adminLoginContainer {
+  border: 1px solid #ffcad2; /* Light Pink */
+  box-shadow: 0 0 0 5px #8B0000, 0 0 0 10px #ffcad2; /* Dark Red and Light Pink */
+  margin: 15%;
+}
+
 
 /* Calendar */
 .calendar {
@@ -245,25 +262,28 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 3%;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
+  color: #fddee2;
+  text-shadow: 2px 2px 1px #8B0000;
 }
 
 .adminTitle {
-  font-size: 2rem;
+  font-size: 2.5rem;
   text-align: left;
   margin-left: 10%;
   margin-top: 10%;
   margin-bottom: 5%;
+  color:white;
+  text-shadow: 2px 2px 1px #8B0000;
 }
 
 .adminDescription {
   font-size: 1.3rem;
   line-height: 3rem;
   text-align: left; 
-  margin-top: 4%;
   margin-left: 10%;
   margin-right: 10%;
+  color:#fddee2;
 }
 
 .adminImage {
@@ -271,20 +291,42 @@
   margin-right: 4%;
   margin-top: 8%;
   align-items: center;
+  position: relative; /* Add position relative for z-index to work */
+  z-index: 2; /* Set a higher z-index for the images to appear on top */
 }
 
 .adminImageDescription {
   text-align: center;
   font-size: 1.2rem;
-  margin-top: 5%;
-  margin-bottom: 10%;
+  margin-bottom:0;
+  background-color: rgb(22, 22, 22);
+  color: white;
+  position: relative;
+  padding: 60px;
+}
+
+.adminImageDescription::before {
+  content: '';
+  position: absolute;
+  top: -90px; /* Move the pseudo-element 1/3 above the container */
+  left: 0;
+  right: 0;
+  height: 150px; /* Extend the pseudo-element to cover 1/3 of the container */
+  background-color: rgb(22, 22, 22);
 }
 
 .adminBorder {
-  margin: 5%;
-  background-color: rgb(247, 163, 124);
-  padding: 50px;
-  border-radius: 10px;
+  background-color:rgb(22, 22, 22);
+  padding: 100px;
+  max-height: 1500px;
+  margin-top: 0;
+}
+
+/* Add a media query for smaller screens */
+@media screen and (max-width: 768px) {
+  .adminBorder {
+    padding: 70px; /* Reduce padding for smaller screens */
+  }
 }
 
 /* Bookings table */
@@ -330,8 +372,6 @@
   }
 }
 
-
-
 .deleteButton {
   background: black;
   color: white;
@@ -340,14 +380,14 @@
 }
 
 .editButton {
-  background: black;
+  background: rgb(22, 22, 22);
   color: white;
   border: none;
   margin: 5%;
 }
 
 .saveButton {
-  background: black;
+  background: rgb(22, 22, 22);
   color: white;
   border: none;
   margin: 40px;
@@ -364,17 +404,15 @@
 }
 
 .hoverEffectd:hover {
-  color:rgb(247, 163, 124);
+  color:rgb(247, 202, 124);
 }
 
 .bookingsColumnTitle {
   text-decoration: underline;
-  color:rgb(101, 6, 226);
 }
 
 
 /* Bookings modal */
-
 .formLabel {
   width: 90%;
   margin: 3%;
@@ -409,7 +447,7 @@
 
 /* Text coloring */
 .playdatesText {
-  color: rgb(247, 104, 197);
+  color: rgb(203, 228, 246);
 }
 
 .registerTitle {
@@ -420,4 +458,55 @@
 .clickText {
   text-decoration: underline;
   color: rgb(101, 6, 226);
+}
+
+/* Footer */
+
+.footer {
+  text-align: center;
+  width: 100%;
+}
+
+.contact-container {
+  background-color:white;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  margin-top: 100px;
+}
+
+.contact-title {
+  color: black;
+  font-weight: bolder;
+  font-size: 30px;
+  font-family: sans-serif
+}
+
+.content-container {
+  background-color:rgb(22, 22, 22);;
+  padding: 50px;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: space-around;
+}
+
+.info-title {
+  color: white;
+  font-size: 20px;
+}
+
+.info-text {
+  color: white;
+  font-size: 17px;
+  margin-top: 20%;
+  padding: 10px;
+  width: 99%;
+}
+
+.bold-text {
+  font-weight: bolder;
+  color: white;
+  font-size: 21px;
 }

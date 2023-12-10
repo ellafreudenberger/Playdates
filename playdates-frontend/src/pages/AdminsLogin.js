@@ -8,13 +8,13 @@ export const AdminsLogin = () => {
         src="/images/Lily.jpeg"
         alt="Lily"
         className="adminImage"
-        style={{ width: "35%", height: "auto" }}
+        style={{ width: "37%", height: "auto" }}
       />
       <img
         src="/images/Ella.jpeg"
         alt="Ella"
         className="adminImage"
-        style={{ width: "38.8%", height: "auto" }}
+        style={{ width: "37%", height: "auto" }}
       />
       <h3 className="adminImageDescription">Lily Hopkins & Ella Freudenberger</h3>
       <div className="adminBorder">
