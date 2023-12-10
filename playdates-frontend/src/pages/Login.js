@@ -7,9 +7,7 @@ export const Login = () => {
   return (
     <div className="loginContainer">
       <h1 className="loginTitle">
-        Book&nbsp;
-        <span className="playdatesText">Playdates</span>
-        &nbsp;with us!
+        Book Playdates with us!
       </h1>
       <LoginForm />
       <Slideshow />

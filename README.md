@@ -34,6 +34,7 @@ Ella Freudenberger
 - React Big Calendar
 - Ant Design
 - Alice Carousel
+- Font Awesome
 
 ## Features
 
