@@ -5,19 +5,11 @@ import { Modal } from 'antd';
 
 
 const tableHeaderStyle = {
-  border: '1px solid #ddd',
-  padding: '8px',
   textAlign: 'left',
 };
 
-const tableRowStyle = {
-  border: '1px solid #ddd',
-};
 
-const tableCellStyle = {
-  border: '1px solid #ddd',
-  padding: '8px',
-};
+
 
 // Time formating
 const formatTime = (time) => {
@@ -251,22 +243,22 @@ const handleEditClick = (bookingId) => {
           </thead>
           <tbody>
             {filteredBookings.map((booking) => (
-              <tr key={booking._id} style={tableRowStyle}>
-                <td style={tableCellStyle}>{booking.service}</td>
-                <td style={tableCellStyle}>{new Date(booking.start_date).toLocaleDateString()}</td>
-                <td style={tableCellStyle}>{formatTime(booking.start_time)}
+              <tr key={booking._id}>
+                <td>{booking.service}</td>
+                <td>{new Date(booking.start_date).toLocaleDateString()}</td>
+                <td>{formatTime(booking.start_time)}
                 {console.log('Booking Time:', booking.start_time)}
                 {console.log('Formatted Time:', formatTime(booking.start_time))}
                 </td> {/*to edit time format*/}
-                <td style={tableCellStyle}>{new Date(booking.end_date).toLocaleDateString()}</td>
-                <td style={tableCellStyle}>{formatTime(booking.end_time)}</td>{/*to edit time format*/}
-                <td style={tableCellStyle}>{booking.street}</td>
-                <td style={tableCellStyle}>{booking.apartment}</td>
-                <td style={tableCellStyle}>{booking.city}</td>
-                <td style={tableCellStyle}>{booking.state}</td>
-                <td style={tableCellStyle}>{booking.zipcode}</td>
-                <td style={tableCellStyle}>{booking.notes}</td>
-                <td style={tableCellStyle}>
+                <td>{new Date(booking.end_date).toLocaleDateString()}</td>
+                <td>{formatTime(booking.end_time)}</td>{/*to edit time format*/}
+                <td>{booking.street}</td>
+                <td>{booking.apartment}</td>
+                <td>{booking.city}</td>
+                <td>{booking.state}</td>
+                <td>{booking.zipcode}</td>
+                <td>{booking.notes}</td>
+                <td>
                 <button className='editButton hoverEffectd' onClick={() => { handleEditClick(booking._id); showModal(); }}>Edit</button>
                 <button className='deleteButton hoverEffectc' onClick={() => deleteBooking(booking._id)}>Delete</button>
                 </td>
@@ -314,7 +306,7 @@ const handleEditClick = (bookingId) => {
 <br />
 
 
-            <label className="formLabel" htmlFor="editedStartTime">
+  <label className="formLabel" htmlFor="editedStartTime">
   Start Time
   <select
     id="editedStartTime"

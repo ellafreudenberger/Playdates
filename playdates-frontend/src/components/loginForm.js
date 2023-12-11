@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoginFancyButton from './buttons/fancy-button2';
 import '../index.css';
 
 const Login = () => {
@@ -17,9 +18,7 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async () => {
     try {
       // Send the login data to the backend for validation
       const response = await fetch('http://localhost:3000/userlogin', {
@@ -46,39 +45,43 @@ const Login = () => {
   };
 
   return (
-    <div className="loginContainer">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={handleUsernameChange}
-          required
-          autoComplete="off"
-        />
+    <div className="login-container">
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <div className="fancy-input-container">
+            <input
+              id="username"
+              type="text"
+              value={username}
+              onChange={handleUsernameChange}
+              required
+              className="rounded-input"
+              autoComplete="username" 
+            />
+          </div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <div className="fancy-input-container">
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+              required
+              className="rounded-input"
+              autoComplete="current-password" 
+            />
+          </div>
+        </div>
+        <LoginFancyButton onClick={handleSubmit} />
 
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={handlePasswordChange}
-          required
-          autoComplete="off"
-        />
-
-        <button type="submit" className="loginButton">
-          Login
-        </button>
-
-        {loginError && (
-          <p className="error-message-b">
-            Sorry, that login entry doesn't match our records!
-          </p>
-        )}
+      {loginError && (
+        <p className="error-message">
+          Sorry, that login entry doesn't match our records!
+        </p>
+      )}
       </form>
     </div>
   );

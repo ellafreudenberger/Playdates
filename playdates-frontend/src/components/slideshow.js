@@ -84,7 +84,6 @@ const Slideshow = () => {
         <AliceCarousel
           autoPlay
           autoPlayInterval={2000}
-          mouseTracking
           items={items}
           responsive={{ 0: { items: 4 } }}
         />

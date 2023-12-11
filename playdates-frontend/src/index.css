@@ -15,41 +15,118 @@
   justify-content: center;
   height: 700px;
   font-weight: 500;
-  margin-top: 10%;
+  margin: 10%;
+  border: 5px solid rgb(159, 214, 249);
+  box-shadow: 0 0 0 12px rgb(13, 13, 91), 0 0 0 1600px rgb(207, 237, 255); 
 }
 
 /* User login form styling */
+.login-container {
+  background-color: rgb(194, 87, 122);
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  min-width: 85vh;
+  font-family: sans-serif;
+  font-size: xx-large;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 700;
+}
+
+.login-form label,
+.login-form input,
+.login-form button {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #fddee2;
+}
+
+.login-container {
+  border: 1px solid #ffcad2;
+  box-shadow: 0 0 0 5px #8B0000, 0 0 0 10px #ffcad2;
+  margin-top: 120px;
+}
+
+.error-message {
+  color: #8B0000;
+}
+
+.login-form #username,
+.login-form #password {
+  background-color: white !important;
+  border: antiquewhite 4px;
+  color: black !important;
+  font-weight: 200;
+}
+
+.login-form #username,
+.login-form #password,
+.login-form button {
+  outline: none;
+}
+
+
 .loginTitle {
   display: flex;
   justify-content: center;
-  font-size: 2.5rem;
-  font-weight: 400;
+  font-size: 3rem;
   color: #8B0000;
-  margin-top: 15%;
-  margin-bottom: 3%;
+  text-shadow: 2px 2px 1px #fddee2;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  font-family: sans-serif;
 }
 
 .loginContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: left;
+  justify-content: center;
   font-family: sans-serif;
   background-color: rgba(250, 243, 243, 0.897);
-  margin-top: 0%;
-  color: black;
-  padding: 20px;
+  min-height: 160vh;
 }
 
-.loginButton {
-  margin-top: 10%;
+.loginBtn {
+  width: 100%;
+  border-radius: 25px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none; 
+  background-color: palevioletred;
+  font-family: sans-serif;
+  margin-bottom: 100px;
+  margin-top: 70px;
+}
+
+.loginText {
+  color: white;
+}
+
+.customLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 70px;
+  font-family: sans-serif;
+  width: 250px;
 }
 
 
-/* Admin login form stling */
+/* Admin login form styling */
 .adminLoginContainer {
-  background-color: rgb(31, 30, 30);
-  padding: 20px;
+  background-color: rgb(194, 87, 122);
+  padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center; /* Center the content horizontally */
@@ -57,7 +134,6 @@
   min-height: 50vh; 
   min-width: 50vh;
   font-family: sans-serif;
-  font-weight: 800;
   font-size: xx-large; 
 }
 
@@ -72,16 +148,15 @@
 .adminLoginForm input,
 .adminLoginForm button {
   margin-bottom: 10px;
-  font-size: large; 
-  color:white;
+  font-size: 20px; 
+  color:#fddee2;
 }
 
 .adminLoginTitle {
   font-size: 40px;
   font-weight: 800;
   margin-bottom: 30px;
-  color: white;
-  text-shadow: 2px 2px 1px #8B0000; /* Dark Red */
+  color:#fddee2;
 }
 
 #username,
@@ -89,6 +164,7 @@
   background-color: white !important;
   border:antiquewhite 4px;
   color: black !important;
+  font-weight: 200;
 }
 
 #username,
@@ -146,6 +222,8 @@ button {
   justify-content: center;
   margin-top: 5%;
   margin-bottom: 5%;
+  background-color: #fffafa; 
+  box-shadow: 0 0 0 1600px #fffafa;
 }
 
 .thanksBooking {
@@ -179,14 +257,14 @@ button {
 .companyTitle {
   text-align: center;
   color: #9f0000;
+  text-shadow: 2px 2px 1px #ffcad2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 7%;
   margin-bottom: 20px;
-  font-size: 6rem;
-  font-weight: 245;
+  font-size: 9rem;
 }
 
 .homeMainTitle {
@@ -222,16 +300,18 @@ button {
 }
 
 .homeServices {
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   margin-top: 6%;
   text-align: left;
+  margin-bottom: 60px;
   margin-left: 15%;
+  text-shadow: 1.5px 1.5px 1px rgb(125, 169, 183);
 }
 
 .homeTitle {
   color:rgb(210, 94, 113);
   font-size: 1.4rem;
-  margin-top: 50px;
+  margin-top: 0px;
   text-align: left;
   margin-left: 15%;
 }
@@ -288,17 +368,17 @@ button {
   margin-left: 10%;
   margin-top: 10%;
   margin-bottom: 5%;
-  color:#963131;
-  text-shadow: 2px 2px 1px #410101;
+  color:rgb(219, 122, 138);
 }
 
 .adminDescription {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   line-height: 3rem;
   text-align: left; 
   margin-left: 10%;
   margin-right: 10%;
   color:white;
+  font-weight: 300;
 }
 
 .adminImage {
@@ -312,9 +392,9 @@ button {
 
 .adminImageDescription {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin-bottom:0;
-  background-color:rgb(31, 30, 30);
+  background-color:rgb(22, 22, 22);
   color: white;
   position: relative;
   padding: 60px;
@@ -327,11 +407,11 @@ button {
   left: 0;
   right: 0;
   height: 150px; /* Extend the pseudo-element to cover 1/3 of the container */
-  background-color:rgb(31, 30, 30);
+  background-color:rgb(22, 22, 22);
 }
 
 .adminBorder {
-  background-color:rgb(31, 30, 30);
+  background-color:rgb(22, 22, 22);
   padding: 100px;
   max-height: 1500px;
   margin-top: 0;
@@ -351,8 +431,9 @@ button {
 
 .bookingsHeader {
   margin-bottom: 10px;
-  font-size: 1.8rem;
+  font-size: 3.5rem;
   margin-top: 60px;
+  font-weight: 600;
 }
 
 .dateLabel {
@@ -362,19 +443,22 @@ button {
 }
 
 .dateLabel select {
-  font-size: 1rem;
-  padding: 5px;
+  font-size: 1.5rem;
+  padding: 6px;
 }
 
 .bookingsTable {
   margin-top: 10px;
-  width: 90%;
   border-collapse: collapse;
-  font-size: small;
+  font-size: 17px;
+  width: 90%;
+  max-width: 700px;
 }
 
 .bookingsTable th, .bookingsTable td {
-  width: auto; 
+  border: 5px solid #ffcad2;
+  box-shadow: 0px 0px 0px 5px #8B0000;
+  padding: 20px;
 }
 
 .bookingsContainer {
@@ -402,17 +486,24 @@ button {
 }
 
 .hoverEffectc:hover {
-  color: #9b2e2e;
+  color: #ae2b2b;
 }
 
 .hoverEffectd:hover {
-  color:rgb(248, 210, 143);
+  color:rgb(159, 214, 249);
 }
 
 .bookingsColumnTitle {
   text-decoration: underline;
 }
 
+.dateLabel select {
+  color: white;
+  background-color: rgb(13, 13, 91);
+  border: 4px solid  rgb(159, 214, 249);
+  padding: 5px; 
+  cursor: pointer; 
+}
 
 /* Bookings modal */
 .formLabel {
@@ -428,14 +519,36 @@ button {
 
 .clientsHeader {
   margin-bottom: 10px;
-  font-size: 1.8rem;
+  font-size: 3.5rem;
+  font-weight: 600;
 }
 
 .clientsTable {
   margin-top: 10px;
   width: 90%;
   border-collapse: collapse;
-  font-size: small;
+  font-size: 19px;
+}
+
+.clientsTable th, .bookingsTable td {
+  width: auto; 
+}
+
+.clientsContainer {
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .clientsTable th, .clientsTable td {
+    width: 90%; 
+  }
+}
+
+.clientsTable th,
+.clientsTable td {
+  border: 5px solid #ffcad2;
+  box-shadow: 0px 0px 0px 5px #8B0000;
+  padding: 18px;
 }
 
 /* Slideshow */
@@ -463,7 +576,6 @@ button {
 }
 
 .contact-container {
-  background-color:white;
   padding: 20px;
   text-align: center;
   width: 100%;
@@ -474,45 +586,50 @@ button {
   color: rgb(38, 38, 38);
   font-weight: bolder;
   font-size: 35px;
+  margin: 0%;
 }
 
 .content-container {
-  background-color:rgb(38, 38, 38);
+  background-color:rgb(22, 22, 22);
   padding: 50px;
 }
 
 .contact-info {
-  display: flex;
-  justify-content: space-around;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
 }
 
 .info-title {
   color: white;
   font-size: 20px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .info-text {
   color: white;
-  font-size: 17px;
-  margin-top: 20%;
+  font-size: 25px;
+  margin-top: 30px;
   padding: 10px;
-  width: 99%;
 }
 
 .bold-text {
   font-weight: bolder;
   color: white;
-  font-size: 21px;
+  font-size: 25px;
 }
 
-/* Media query for smaller screens */
-@media (max-width: 768px) {
-  .contact-info {
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally */
-  }
 
-  .info-text {
-    margin-top: 20px; /* Adjust spacing for smaller screens */
-  }
+/* Nav */
+.logo {
+  height: 60px;
+  margin: 20px;
+}
+
+
+/* Admin Background */
+.adminBackground {
+  background-color: #fffafa; 
+  box-shadow: 0 0 0 1600px #fffafa;
+  font-family: sans-serif;
 }

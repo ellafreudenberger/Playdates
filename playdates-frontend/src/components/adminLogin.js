@@ -50,7 +50,7 @@ const AdminLoginForm = () => {
       <form onSubmit={handleSubmit} className="adminLoginForm">
         <label htmlFor="username">Username</label>
         <input
-           className="adminInput"
+          className="adminInput"
           type="text"
           id="username"
           name="username"

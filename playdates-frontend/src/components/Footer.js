@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="contact-container">
-        <h1 className="contact-title">CONTACT</h1>
+        <h1 className="contact-title">CONTACT US</h1>
       </div>
       <div className="content-container">
         <div className="contact-info">
@@ -17,8 +17,8 @@ const Footer = () => {
           </div>
           <div>
             <h2 className="info-title">Phone  <FontAwesomeIcon icon={faPhone} /></h2>
-            <h3 className="info-text"><span className="bold-text">Lily</span> 707.673.7328</h3>
-            <h3 className="info-text"><span className="bold-text">Ella</span> 415.271.6620</h3>
+            <h3 className="info-text"><span className="bold-text">Lily&nbsp;&nbsp;</span>707.673.7328</h3>
+            <h3 className="info-text"><span className="bold-text">Ella&nbsp;&nbsp;</span> 415.271.6620</h3>
           </div>
           <div>
             <h2 className="info-title">Address  <FontAwesomeIcon icon={faHouse} /></h2>

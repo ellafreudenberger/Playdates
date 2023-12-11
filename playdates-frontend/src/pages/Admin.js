@@ -4,7 +4,7 @@ import Bookings from "../components/Bookings";
 
 export const AdminsLogin = () => {
   return (
-    <div>
+    <div className="adminBackground">
       <Users />
       <Bookings />
     </div>
