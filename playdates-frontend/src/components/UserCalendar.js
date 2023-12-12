@@ -211,7 +211,7 @@ function BookingsCalendar() {
   
   return (
     <div>
-     <h1 className="calTitle"><span className="clickText">Click</span>&nbsp;on the days you would like to set up&nbsp;<span className="playdatesText">Playdates</span>&nbsp;with us!</h1>
+     <h1 className="calTitle"> Click on the days you would like to set up Playdates with us! </h1>
       <Calendar className='calendar'
         localizer={localizer}
         startAccessor="start"
