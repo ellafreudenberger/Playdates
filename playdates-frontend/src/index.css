@@ -1,8 +1,9 @@
 
 /* Error messages */
 .error-message {
-  margin-top: 5%;
+  margin-top: 10%;
   font-family: sans-serif;
+  text-align: center;
 }
 
 /* Registration form styling */
@@ -112,10 +113,6 @@ input:required:invalid::placeholder {
   border: 1px solid #ffcad2;
   box-shadow: 0 0 0 5px #8B0000, 0 0 0 10px rgb(194, 87, 122);
   margin-top: 140px;
-}
-
-.error-message {
-  color: #8B0000;
 }
 
 .login-form #username,
@@ -245,7 +242,7 @@ button {
 }
 
 .error-message {
-  color: #8B0000;
+  color: white;
 }
 
 /* Calendar */
@@ -343,35 +340,38 @@ button {
 .homeMainTitle {
   text-align: center;
   color: rgb(207, 237, 255);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 5%;
+  position: relative;
   font-size: 2.7rem;
   background-color: rgb(3, 3, 46);
-  height: 20vh;
   margin: 0;
+  z-index: 0;
+  padding: 30px;
 }
 
 .homeDescription {
   font-size: 1.6rem;
   line-height: 3rem;
   text-align: center; 
-  padding: 60px;
+  padding: 80px;
   color:rgb(207, 237, 255);
-  background-color:rgb(3, 3, 46);
-  height: 170vh;
   margin: 0;
   font-weight: 250;
   z-index: 1;
+  position: relative;
 }
 
+.homeBackground {
+  background-color:rgb(3, 3, 46);
+  padding: 10px;
+ }
+
 .homeDog1 {
-  display: flex; 
-  align-items: center;
+  display: flex;
   justify-content: center;
-  margin: -800px auto 0;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  margin: 0 auto 20%;
 }
 
 .homeServicesBorder {
@@ -412,10 +412,6 @@ button {
   margin-bottom: 5%;
 }
 
-.homeDog2 {
-  flex-shrink: 0;
-}
-
 
 /* Small screen styles */
 @media screen and (max-width: 767px) {
@@ -424,27 +420,18 @@ button {
     font-size: 7rem;
   }
 
-  .homeDescription {
-    height: 200vh; /* Adjusted height for better fit on small screens */
-  }
-
-  .homeDog1 {
-    margin: -780px auto 20px; /* Adjusted margin for better spacing on small screens */
-    max-width: 100%; /* Ensure the image doesn't exceed the container width */
-  }
-
   .homeServicesBorder {
     padding: 30px;
     margin-top: 180px;
   }
 
-  .homeText {
-    margin-left: 140px;
+  .homeDog2 {
+    margin-top: 600px;
+    margin-left: -342px;
   }
 
-  .homeDog2 {
-    margin-top: 1080px;
-    margin-left: -343px;
+  .homeInfo {
+    font-size: 90%;
   }
 }
 
