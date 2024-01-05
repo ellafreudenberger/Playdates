@@ -18,8 +18,8 @@
   font-weight: 600;
   font-size: 1.1rem;
   border: 5px solid #fddee2;;
-  box-shadow: 0 0 0 10px #8B0000, 0 0 0 1600px rgb(207, 237, 255); 
-  margin: 160px auto 0;
+  box-shadow: 0 0 0 10px #8B0000, 0 0 0 800px rgb(207, 237, 255); 
+  margin: 160px auto;
 }
 
 form {
@@ -149,7 +149,8 @@ input:required:invalid::placeholder {
   justify-content: center;
   font-family: sans-serif;
   background-color: rgb(3, 3, 46);
-  min-height: 200vh;
+  min-height: 1500px;
+  max-height: 2000px;
 }
 
 .loginBtn {
@@ -503,11 +504,14 @@ button {
 .adminImageDescription {
   text-align: center;
   font-size: 1.4rem;
-  margin-bottom:0;
-  background-color:rgb(22, 22, 22);
+  margin-bottom: 0;
+  background-color: rgb(22, 22, 22);
+  max-width: 3000px;
   color: white;
   position: relative;
   padding: 60px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .adminImageDescription::before {
@@ -521,10 +525,13 @@ button {
 }
 
 .adminBorder {
-  background-color:rgb(22, 22, 22);
+  background-color: rgb(22, 22, 22);
   padding: 100px;
-  max-height: 1500px;
+  max-height: 4000px;
   margin-top: 0;
+  max-width: 3000px; 
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Add a media query for smaller screens */
@@ -681,6 +688,7 @@ button {
 
 /* Footer */
 .footer {
+  margin-top: auto; 
   text-align: center;
   width: 100%;
   font-family: sans-serif;
@@ -741,6 +749,6 @@ button {
 /* Admin Background */
 .adminBackground {
   background-color: #fffafa; 
-  box-shadow: 0 0 0 1600px #fffafa;
+  box-shadow: 0 0 0 700px #fffafa;
   font-family: sans-serif;
 }
