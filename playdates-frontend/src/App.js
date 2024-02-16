@@ -18,8 +18,7 @@ const App = () => {
     // Check user's authentication status when the component mounts
     const checkAuthStatus = async () => {
       try {
-        // Perform your authentication check (e.g., sending a request to the backend)
-        // Example:
+        // Perform your authentication check & sending a request to the backend
         const response = await fetch('/check-auth', {
           method: 'GET',
           credentials: 'include' // Include cookies in the request
@@ -46,9 +45,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         {/* Protected route for the Admin page */}
         <Route path="/admin" element={isLoggedIn ? <Admin /> : <Navigate to="/dogsitters" />} />
-        {/* Protected route for the AdminsLogin page */}
         <Route path="/dogsitters" element={<AdminsLogin />} />
-        <Route path="/calendar" element={<BookingsCalendar />} />
+         {/* Protected route for the Scheduling page */}
+        <Route path="/calendar" element={isLoggedIn ? <BookingsCalendar />: <Navigate to="/login" />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />

@@ -175,33 +175,58 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// User login route
+// Middleware to check user authentication
+const requireUserLogin = (req, res, next) => {
+  if (req.session.userId) {
+    next(); // User is authenticated, proceed to the next middleware
+  } else {
+    res.status(403).json({ error: 'Unauthorized' }); // User is not authenticated, send 403 Forbidden
+  }
+};
+
+// User Login Route
 app.post('/userlogin', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Find the user with the provided username
     const user = await Users.findOne({ username });
 
-    // If the user doesn't exist
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Check if the password is correct using bcrypt
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Login successful
+    req.session.userId = user._id; // Store user ID in session
+
     res.status(200).json({ message: 'Login successful' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// User Logout Route
+app.post('/userlogout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.status(200).json({ message: 'Logout successful' });
+    }
+  });
+});
+
+// Protected route for the calendar page
+app.get('/calendar', requireUserLogin, (req, res) => {
+  res.status(200).send("Welcome to the calendar page");
+});
+
 
 // Booking route
 app.route('/bookings')
