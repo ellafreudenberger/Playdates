@@ -8,9 +8,6 @@ const tableHeaderStyle = {
   textAlign: 'left',
 };
 
-
-
-
 // Time formating
 const formatTime = (time) => {
   try {
@@ -199,6 +196,7 @@ const handleEditClick = (bookingId) => {
           zipcode: '',
           notes: '',
         });
+
       // Close the modal
       setIsModalVisible(false);
       } else {
@@ -332,7 +330,7 @@ const handleEditClick = (bookingId) => {
 </label>
 <br />
 
-            <label className="formLabel" htmlFor="editedEndTime">
+  <label className="formLabel" htmlFor="editedEndTime">
   End Time
   <select
     id="editedEndTime"
