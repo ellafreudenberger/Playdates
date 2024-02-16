@@ -3,21 +3,14 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-// const seedersScript = require('./seeders/login');
 const cors = require('cors');
+const session = require('express-session');
+
 const Users = require('./models/user');
-const Bookings = require('./models/booking')
+const Bookings = require('./models/booking');
 const Admins = require('./models/admin');
 
 const app = express();
-
-// Session middleware
-const session = require('express-session');
-app.use(session({
-secret: 'your-secret-key',
-resave: false,
-saveUninitialized: true,
-}));
 
 // Database connection
 const connectDB = require('./database/dbconnect');
@@ -30,42 +23,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // CORS middleware to complete cross-origin requests between servers
 app.use(cors());
 
-app.get('/admin', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Credentials', true);
-});
+// Express session middleware
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+}));
 
-// Welcome page route
-app.get('/', (req, res) => {
-    res.send("Welcome to our homepage");
-});
-
-// Middleware to authenticate admin
-const authenticateAdmin = async (req, res, next) => {
-  try {
-    const { username, password } = req.body;
-
-    // Find the admin in the database based on the provided username
-    const admin = await Admins.findOne({ username });
-
-    if (!admin) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    // Compare the provided password with the hashed password in the database
-    const passwordMatch = await bcrypt.compare(password, admin.password);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    // Set a flag in the request to indicate admin authentication
-    req.isAdminAuthenticated = true;
-
-    next();
-  } catch (error) {
-    console.error('Error authenticating admin:', error);
-    res.status(500).json({ error: 'Internal server error' });
+// Route handler for the /admin page
+const requireAdminLogin = (req, res, next) => {
+  if (req.session.adminId) {
+    next(); // User is authenticated, proceed to the next middleware
+  } else {
+    res.status(403).json({ error: 'Unauthorized' }); // User is not authenticated, send 403 Forbidden
   }
 };
 
@@ -74,31 +44,50 @@ app.post('/adminlogin', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Find the user with the provided username
     const admin = await Admins.findOne({ username });
 
-    // If the user doesn't exist
     if (!admin) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Compare the provided password with the hashed password in the database
     const isPasswordValid = await bcrypt.compare(password, admin.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Create a session upon successful login
-    req.session.adminId = admin._id;
+    req.session.adminId = admin._id; // Store admin ID in session
 
-    // Login successful
     res.status(200).json({ message: 'Login successful' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+app.post('/adminlogout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.status(200).json({ message: 'Logout successful' });
+    }
+  });
+});
+
+// Route handler for the /admin page with requireAdminLogin middleware
+app.get('/admin', requireAdminLogin, (req, res) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.status(200).send("Welcome to the admin page");
+});
+
+// Welcome page route
+app.get('/', (req, res) => {
+    res.send("Welcome to our homepage");
+});
+
 
 // Users page route
 app.get('/admin/users', async (req, res) => {
