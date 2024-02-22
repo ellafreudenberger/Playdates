@@ -21,7 +21,7 @@ const BookingsSchema = new mongoose.Schema({
  city: { type: String, required: true },
  state: { type: String, require: true },
  zipcode: {type: Number, required: true},
-  notes: { type: String, required: true },
+  notes: { type: String, required: false },
 
 }, { collection: 'Bookings' });
 

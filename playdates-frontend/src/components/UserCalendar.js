@@ -9,6 +9,8 @@ import getDay from 'date-fns/getDay';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Button, Modal } from 'antd';
 import '../index.css';
+import { setHours } from 'date-fns';
+
 
 const locales = {
   'en-US': require('date-fns/locale/'),
@@ -116,26 +118,24 @@ function BookingsCalendar() {
   
 
 
-  // Set date in form to the date clicked on
-  const handleSelectSlot = (slotInfo) => {
-    const { start } = slotInfo;
-  
-    // Set start_date, end_date, start_time, and end_time based on the selected slot
-    const formattedDate = format(start, 'yyyy-MM-dd');
-    const formattedTime = format(start, 'HH:mm');
+ const handleSelectSlot = (slotInfo) => {
+  const { start } = slotInfo;
 
-  
-    setFormData({
-      ...formData,
-      start_date: formattedDate,
-      end_date: formattedDate,
-      start_time: formattedTime,
-      end_time: formattedTime,
-    });
-  
-    setSelectedSlot(slotInfo);
-    setModalVisible(true);
-  };
+  // Set hours, minutes, seconds, and milliseconds to zero
+  const formattedDate = format(setHours(start, 0, 0, 0, 0), 'yyyy-MM-dd');
+  const formattedTime = format(start, 'HH:mm');
+
+  setFormData({
+    ...formData,
+    start_date: formattedDate,
+    end_date: formattedDate, // Assuming the end date is the same as the start date
+    start_time: formattedTime,
+    end_time: formattedTime, // Assuming the end time is the same as the start time
+  });
+
+  setSelectedSlot(slotInfo);
+  setModalVisible(true);
+};
 
   // Function to handle the cancellation of the modal
   const handleModalCancel = () => {
@@ -390,18 +390,24 @@ function BookingsCalendar() {
         <h1 className="thanksBooking">Thank you for booking with us!</h1>
         <h2 className="submitPayment">Please submit payment to our Venmo.</h2>
         <h3 className="rates">
-        <li className="pricing"> 
-        <ul>Walk
-          <ul>30 Minutes - $15</ul>
-          <ul>1 Hour - $30</ul>
+          <ul className="pricing"> 
+            <li className="service">Walk
+              <ul className="prices">
+                <li>30 Minutes - $15</li>
+                <li>1 Hour - $30</li>
+              </ul>
+            </li>
+            <li className="service">Sitting
+              <ul className="prices">
+                <li>1 Day - $80</li>
+              </ul>
+            </li>
+            <li className="service">Boarding 
+              <ul className="prices">
+                <li>1 Day - $80</li>
+              </ul>
+            </li>
           </ul>
-        <ul>Sitting
-          <ul>1 Day - $80</ul> 
-          </ul>
-        <ul>Boarding 
-        <ul>1 Day - $80</ul>
-        </ul>
-        </li>
         </h3>
       </Modal>
     </div>
