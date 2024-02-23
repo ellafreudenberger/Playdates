@@ -100,8 +100,6 @@ const generateTimeOptions = (selectedDate, selectedBookingTime) => {
 };
 
 
-
-
 // Edit bookings
 const [isModalVisible, setIsModalVisible] = useState(false);
 const [editingBookingId, setEditingBookingId] = useState(null);
@@ -135,9 +133,9 @@ const handleEditClick = (bookingId) => {
   
   setEditedBooking({
     service: bookingToEdit.service,
-    start_date: format(new Date(bookingToEdit.start_date), 'yyyy-MM-dd'),
+    start_date: format(addDays(new Date(bookingToEdit.start_date), 1), 'yyyy-MM-dd'), // Add a day here
     start_time: bookingToEdit.start_time,
-    end_date: format(new Date(bookingToEdit.end_date), 'yyyy-MM-dd'),
+    end_date: format(addDays(new Date(bookingToEdit.end_date), 1), 'yyyy-MM-dd'), // Add a day here
     end_time: bookingToEdit.end_time,
     street: bookingToEdit.street,
     apartment: bookingToEdit.apartment,
@@ -147,9 +145,6 @@ const handleEditClick = (bookingId) => {
     notes: bookingToEdit.notes,
   });
 };
-
-
-  
 
   const handleEditFormChange = (e) => {
     const { name, value } = e.target;
@@ -215,11 +210,11 @@ const handleEditClick = (bookingId) => {
           <select id="startDate" onChange={handleStartDateChange} value={selectedStartDate || ''}>
             <option value="">All Dates</option>
             {uniqueStartDates.map((startDate) => (
-              <option key={startDate} value={startDate}>
-                {new Date(startDate).toLocaleDateString()}
-              </option>
-            ))}
-          </select>
+    <option key={startDate} value={startDate}>
+      {format(addDays(new Date(startDate), 1), 'MM/dd/yyyy', { timeZone: 'America/New_York' })}
+    </option>
+  ))}
+</select>
         </label>
         <table className="bookingsTable" style={{ borderCollapse: 'collapse', width: '100%' }}>
           <thead>
