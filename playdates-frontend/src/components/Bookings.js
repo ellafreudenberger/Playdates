@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "../index.css";
 import { parse, format } from 'date-fns';
 import { Modal } from 'antd';
-
+import { addDays } from 'date-fns';
 
 const tableHeaderStyle = {
   textAlign: 'left',
@@ -243,12 +243,12 @@ const handleEditClick = (bookingId) => {
             {filteredBookings.map((booking) => (
               <tr key={booking._id}>
                 <td>{booking.service}</td>
-                <td>{new Date(booking.start_date).toLocaleDateString()}</td>
+                <td>{format(addDays(new Date(booking.start_date), 1), 'MM/dd/yyyy', { timeZone: 'America/New_York' })}</td> {/*fixed weird date issue where day was always rendered in the table as 1 day behind*/}
                 <td>{formatTime(booking.start_time)}
                 {console.log('Booking Time:', booking.start_time)}
                 {console.log('Formatted Time:', formatTime(booking.start_time))}
                 </td> {/*to edit time format*/}
-                <td>{new Date(booking.end_date).toLocaleDateString()}</td>
+                <td>{format(addDays(new Date(booking.end_date), 1), 'MM/dd/yyyy', { timeZone: 'America/New_York' })}</td> {/*fixed weird date issue where day was always rendered in the table as 1 day behind*/}
                 <td>{formatTime(booking.end_time)}</td>{/*to edit time format*/}
                 <td>{booking.street}</td>
                 <td>{booking.apartment}</td>
@@ -421,5 +421,4 @@ const handleEditClick = (bookingId) => {
   }
 
 export default Bookings;
-
 

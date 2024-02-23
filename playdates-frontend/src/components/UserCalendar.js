@@ -27,7 +27,7 @@ const localizer = dateFnsLocalizer({
 
 function BookingsCalendar() {
   const [bookedTimes, setBookedTimes] = useState([]);
-  const [selectedSlot, setSelectedSlot] = useState(null); // initial default is no calendar day has been selectd yet
+  const [selectedSlot, setSelectedSlot] = useState(null); // initial default is no calendar day has been selected yet
   const [modalVisible, setModalVisible] = useState(false); //determines initial visibility as unseen and later pops up when this state changes to true 
   const [venmoModalVisible, setVenmoModalVisible] = useState(false); //determines initial visibility as unseen and later pops up when this state changes to true 
  
@@ -84,58 +84,44 @@ function BookingsCalendar() {
     // Include fetchBookedTimes in the dependency array
   }, [fetchBookedTimes]);
 
-  const generateTimeOptions = (selectedBookingTime) => {
+  function generateTimeOptions() {
     const options = [];
+    const currentTime = new Date();
+    const startOfDay = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
   
     for (let i = 0; i < 24 * 2; i++) {
-      const hours = Math.floor(i / 2);
-      const minutes = i % 2 === 0 ? '00' : '30';
-      const formattedTime = format(new Date(0, 0, 0, hours, minutes), 'h:mm a');
-  
-      // Check if the current time option is booked
-      const isBooked = bookedTimes.some((bookingTime) => {
-        const bookingStartTime = format(bookingTime.start, 'h:mm a');
-        const bookingEndTime = format(bookingTime.end, 'h:mm a');
-  
-        // Check if the formatted time is within the booking time range
-        return (
-          formattedTime >= bookingStartTime &&
-          formattedTime < bookingEndTime &&
-          formattedTime !== selectedBookingTime
-        );
-      });
-  
-      // Add the time option to the list only if it's not booked
+      const time = new Date(startOfDay.getTime() + i * 30 * 60 * 1000); // Increment by 30 minutes
+      const formattedTime = format(time, 'h:mm a');
       options.push(
-        <option key={formattedTime} value={formattedTime} disabled={isBooked}>
+        <option key={formattedTime} value={formattedTime}>
           {formattedTime}
         </option>
       );
     }
   
     return options;
-  };
+  }
   
 
-
- const handleSelectSlot = (slotInfo) => {
-  const { start } = slotInfo;
-
-  // Set hours, minutes, seconds, and milliseconds to zero
-  const formattedDate = format(setHours(start, 0, 0, 0, 0), 'yyyy-MM-dd');
-  const formattedTime = format(start, 'HH:mm');
-
-  setFormData({
-    ...formData,
-    start_date: formattedDate,
-    end_date: formattedDate, // Assuming the end date is the same as the start date
-    start_time: formattedTime,
-    end_time: formattedTime, // Assuming the end time is the same as the start time
-  });
-
-  setSelectedSlot(slotInfo);
-  setModalVisible(true);
-};
+  const handleSelectSlot = (slotInfo) => {
+    const { start } = slotInfo;
+  
+    // Set hours, minutes, seconds, and milliseconds to zero
+    const formattedDate = format(setHours(start, 0, 0, 0, 0), 'yyyy-MM-dd');
+    const formattedTime = format(start, 'HH:mm');
+  
+    setFormData({
+      ...formData,
+      start_date: formattedDate,
+      end_date: formattedDate, // Assuming the end date is the same as the start date
+      start_time: formattedTime,
+      end_time: formattedTime, // Assuming the end time is the same as the start time
+    });
+  
+    setSelectedSlot(slotInfo);
+    setModalVisible(true);
+  };
+  
 
   // Function to handle the cancellation of the modal
   const handleModalCancel = () => {
