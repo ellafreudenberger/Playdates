@@ -20,7 +20,7 @@ const PlaydatesNav = () => {
         </Navbar>
         <br />
         </>
-    )
+    );
 }
 
 export default PlaydatesNav;
